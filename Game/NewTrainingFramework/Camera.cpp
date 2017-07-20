@@ -9,7 +9,7 @@ Camera::Camera()
 	up = Vector3(0, 1, 0);
 	direction = 0;
 	jumping = false;
-	freeMode = false;
+	freeMode = true;
 
 	R.SetTranslation(target.x, target.y, target.z + 1);
 	T.SetTranslation(position.x, position.y, position.z);
@@ -76,9 +76,11 @@ void Camera::LookUp(GLfloat angle)
 
 void Camera::MoveUp(GLfloat distance)
 {
-	Vector3 deltaMove = -(position - target).Normalize()*distance;
-	position += deltaMove;
-	target += deltaMove;
+	//Vector3 deltaMove = -(position - target).Normalize()*distance;
+	//position += deltaMove;
+	//target += deltaMove;
+	position.y += distance;
+	target.y += distance;
 
 	R.SetTranslation(target.x, target.y, target.z + 1);
 	T.SetTranslation(position.x, position.y, position.z);

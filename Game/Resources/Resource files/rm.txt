@@ -1,4 +1,4 @@
-#Models: 5
+#Models: 6
 ID 0
 FILE "../Resources/Models/woman1.nfg"
 ID 1
@@ -9,10 +9,12 @@ ID 3
 FILE "../Resources/Models/Terrain.nfg"
 ID 4
 FILE "../Resources/Models/croco.nfg"
+ID 5
+FILE "../Resources/Models/chef.nfg"
 
-#2D Textures: 7
+#2D Textures: 9
 ID 0
-FILE "../Resources/Textures/woman1.tga"
+FILE "../Resources/Textures/bg.tga"
 TILING REPEAT
 ID 1
 FILE "../Resources/Textures/woman2.tga"
@@ -31,6 +33,12 @@ FILE "../Resources/Textures/dirt.tga"
 TILING REPEAT
 ID 6
 FILE "../Resources/Textures/croco.tga"
+TILING REPEAT
+ID 7
+FILE "../Resources/Textures/chef.tga"
+TILING REPEAT
+ID 8
+FILE "../Resources/Textures/hanh.tga"
 TILING REPEAT
 
 #Cube Textures: 1

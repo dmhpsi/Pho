@@ -1,0 +1,50 @@
+#Models: 5
+ID 0
+FILE "../Resources/Models/woman1.nfg"
+ID 1
+FILE "../Resources/Models/SkyBox.nfg"
+ID 2
+FILE "../Resources/Models/woman2.nfg"
+ID 3
+FILE "../Resources/Models/Terrain.nfg"
+ID 4
+FILE "../Resources/Models/croco.nfg"
+
+#2D Textures: 7
+ID 0
+FILE "../Resources/Textures/woman1.tga"
+TILING REPEAT
+ID 1
+FILE "../Resources/Textures/woman2.tga"
+TILING REPEAT
+ID 2
+FILE "../Resources/Textures/Terrain_blend_map.tga"
+TILING REPEAT
+ID 3
+FILE "../Resources/Textures/water.tga"
+TILING REPEAT
+ID 4
+FILE "../Resources/Textures/grass.tga"
+TILING REPEAT
+ID 5
+FILE "../Resources/Textures/dirt.tga"
+TILING REPEAT
+ID 6
+FILE "../Resources/Textures/croco.tga"
+TILING REPEAT
+
+#Cube Textures: 1
+ID 0
+FILE "../Resources/Textures/envMap.tga"
+TILING REPEAT
+
+#Shaders: 3
+ID 0
+VS "../Resources/Shaders/TriangleShaderVS.vs"
+FS "../Resources/Shaders/TriangleShaderFS.fs"
+ID 1
+VS "../Resources/Shaders/Skybox.vs"
+FS "../Resources/Shaders/Skybox.fs"
+ID 2
+VS "../Resources/Shaders/Terrain.vs"
+FS "../Resources/Shaders/Terrain.fs"

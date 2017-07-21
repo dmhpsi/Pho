@@ -48,8 +48,6 @@ void SceneManager::Init(const char *smFile)
 			listObject[i].listTextures[0] = (Texture*)ResourceManager::GetInstance()->GetObjPart(OBJ_SKY_TEXTURE, tmp);
 		}
 		
-
-		tmp = -1237841278;
 		fscanf_s(Resource, "SHADER %d\n", &tmp);
 		listObject[i].shader = (Shaders*)ResourceManager::GetInstance()->GetObjPart(OBJ_SHADER, tmp);
 
@@ -62,6 +60,7 @@ void SceneManager::Init(const char *smFile)
 		Matrix s, t, rx, ry, rz;
 		float x, y, z;
 		fscanf_s(Resource, "POSITION %f, %f, %f\n", &x, &y, &z);
+		//t.SetTranslation(x, y, z);
 		t.SetTranslation(x, y, z);
 		fscanf_s(Resource, "ROTATION %f, %f, %f\n", &x, &y, &z);
 		x *= PI / 180;
@@ -70,9 +69,13 @@ void SceneManager::Init(const char *smFile)
 		rx.SetRotationX(x);
 		ry.SetRotationY(y);
 		rz.SetRotationZ(z);
+
 		fscanf_s(Resource, "SCALE %f, %f, %f\n", &x, &y, &z);
-		s.SetScale(x, y, z);
-		listObject[i].W = rz*rx*ry*s*t;
+		//s.SetScale(x, y, z);
+		s.SetScale(x,
+			x * listObject[i].listTextures[0]->height / listObject[i].listTextures[0]->width,
+			1);
+		listObject[i].W = rx*s*t;
 	}
 }
 

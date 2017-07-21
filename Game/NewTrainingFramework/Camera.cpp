@@ -3,9 +3,9 @@
 
 Camera::Camera()
 {
-	height = MID_CAM;
-	position = Vector3(0, height, 4);
-	target = Vector3(0, height, 3);
+	//height = MID_CAM;
+	position = Vector3(0, 0, 0);
+	target = Vector3(0, 0, -1);
 	up = Vector3(0, 1, 0);
 	direction = 0;
 	jumping = false;

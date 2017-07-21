@@ -25,9 +25,10 @@ void Draw ( ESContext *esContext )
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-	globalVP.SetPerspective(PI / 3, Globals::screenWidth*1.0/Globals::screenHeight, 0.1, 5);
+	globalVP.SetPerspective(PI / 3, 1.0 * Globals::screenWidth / Globals::screenHeight, 0.01, 500);
 	Matrix V = Camera::GetInstance()->ViewTheWorld();
 	globalVP = V*globalVP;
+	//globalVP = Camera::GetInstance()->ViewTheWorld();
 
 	SceneManager::GetInstance()->Draw(-1);
 
@@ -78,7 +79,7 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 	else if (key == VK_DOWN)
 	{
 		Camera::GetInstance()->Act(MOVE_DOWN, bIsPressed);
-	};
+	}
 	//else if (key == VK_LEFT)
 	//{
 	//	Camera::GetInstance()->Act(MOVE_LEFT, bIsPressed);

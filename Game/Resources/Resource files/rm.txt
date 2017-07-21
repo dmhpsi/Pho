@@ -1,58 +1,33 @@
-#Models: 6
+#Models: 1
 ID 0
-FILE "../Resources/Models/woman1.nfg"
-ID 1
-FILE "../Resources/Models/SkyBox.nfg"
-ID 2
-FILE "../Resources/Models/woman2.nfg"
-ID 3
-FILE "../Resources/Models/Terrain.nfg"
-ID 4
-FILE "../Resources/Models/croco.nfg"
-ID 5
-FILE "../Resources/Models/chef.nfg"
+FILE "../Resources/Models/sprite.nfg"
 
-#2D Textures: 9
+#2D Textures: 7
 ID 0
-FILE "../Resources/Textures/bg.tga"
+FILE "../Resources/Textures/aquarium.tga"
 TILING REPEAT
 ID 1
-FILE "../Resources/Textures/woman2.tga"
+FILE "../Resources/Textures/arcade.tga"
 TILING REPEAT
 ID 2
-FILE "../Resources/Textures/Terrain_blend_map.tga"
+FILE "../Resources/Textures/bakery.tga"
 TILING REPEAT
 ID 3
-FILE "../Resources/Textures/water.tga"
+FILE "../Resources/Textures/background.tga"
 TILING REPEAT
 ID 4
-FILE "../Resources/Textures/grass.tga"
+FILE "../Resources/Textures/barbershop.tga"
 TILING REPEAT
 ID 5
-FILE "../Resources/Textures/dirt.tga"
+FILE "../Resources/Textures/bikeshop.tga"
 TILING REPEAT
 ID 6
-FILE "../Resources/Textures/croco.tga"
-TILING REPEAT
-ID 7
-FILE "../Resources/Textures/chef.tga"
-TILING REPEAT
-ID 8
-FILE "../Resources/Textures/hanh.tga"
+FILE "../Resources/Textures/bank.tga"
 TILING REPEAT
 
-#Cube Textures: 1
-ID 0
-FILE "../Resources/Textures/envMap.tga"
-TILING REPEAT
+#Cube Textures: 0
 
-#Shaders: 3
+#Shaders: 1
 ID 0
 VS "../Resources/Shaders/TriangleShaderVS.vs"
 FS "../Resources/Shaders/TriangleShaderFS.fs"
-ID 1
-VS "../Resources/Shaders/Skybox.vs"
-FS "../Resources/Shaders/Skybox.fs"
-ID 2
-VS "../Resources/Shaders/Terrain.vs"
-FS "../Resources/Shaders/Terrain.fs"

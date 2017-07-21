@@ -9,8 +9,8 @@ void Object::Draw()
 	
 	GLint uniform = glGetUniformLocation(shader->program, "u_WVP");
 
-	Matrix WVP = W*globalVP;
-
+	Matrix WVP;
+	WVP = W*globalVP;
 	glUniformMatrix4fv(uniform, 1, GL_FALSE, &WVP.m[0][0]);
 
 	glBindBuffer(GL_ARRAY_BUFFER, model->vboId);

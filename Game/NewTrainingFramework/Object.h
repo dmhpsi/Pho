@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Shaders.h"
 #include "define.h"
+#include "Globals.h"
 
 class Object
 {

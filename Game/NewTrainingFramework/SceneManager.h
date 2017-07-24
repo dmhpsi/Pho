@@ -3,6 +3,8 @@
 #include "Object.h"
 #include <stdarg.h>
 
+extern int currentTick;
+
 class SceneManager
 {
 private:
@@ -10,9 +12,10 @@ private:
 	~SceneManager();
 public:
 	static void CleanInstance();
-	int numObject;
+	int numObject, numBg;
+	float sceneWidth, sceneHeight;
 	Object* listObject;
 	void Init(const char *smFile);
-	void Draw(int numObjects, ...);
+	void Draw(int binaryPos);
 	static SceneManager* GetInstance();
 };

@@ -6,7 +6,7 @@
 
 Matrix globalVP;
 
-float FPS;
+int currentTick;
 
 int Init ( ESContext *esContext )
 {
@@ -25,14 +25,12 @@ void Draw ( ESContext *esContext )
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-	globalVP.SetPerspective(PI / 3, 1.0 * Globals::screenWidth / Globals::screenHeight, 0.01, 500);
-	Matrix V = Camera::GetInstance()->ViewTheWorld();
-	globalVP = V*globalVP;
-	//globalVP = Camera::GetInstance()->ViewTheWorld();
+	globalVP = Camera::GetInstance()->ViewTheWorld();
 
 	SceneManager::GetInstance()->Draw(-1);
 
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+	currentTick = GetTickCount();
 }
 
 void Update ( ESContext *esContext, float deltaTime )
@@ -40,16 +38,6 @@ void Update ( ESContext *esContext, float deltaTime )
 	if (deltaTime > 0)
 	{
 		Camera::GetInstance()->Update(deltaTime);
-		static int frames;
-		static float t;
-		frames++;
-		t += deltaTime;
-		if (frames > 30)
-		{
-			FPS = frames / t;
-			frames = 0;
-			t = 0;
-		}
 	}
 }
 

@@ -21,13 +21,8 @@ void Object::Draw()
 	uni[1] = glGetUniformLocation(shader->program, "u_tex2");
 	uni[2] = glGetUniformLocation(shader->program, "u_tex3");
 	uni[3] = glGetUniformLocation(shader->program, "u_tex4");
-
-	for (int i = 0; i < numTextures; i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, listTextures[i]->texId);
-		glUniform1i(uni[i], i);
-	}
+			
+	glBindTexture(GL_TEXTURE_2D, listTextures[currentTick / mspf % numTextures]->texId);
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, listTextures[0]->texId);
 

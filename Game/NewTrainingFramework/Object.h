@@ -7,12 +7,15 @@
 #include "define.h"
 #include "Globals.h"
 
+extern int currentTick;
+
 class Object
 {
 public:
 	int ID;
 	Model* model;
-	int numTextures;
+	int numTextures, mspf;
+	float w, h;
 	Texture** listTextures;
 	Shaders* shader;
 	void Draw();

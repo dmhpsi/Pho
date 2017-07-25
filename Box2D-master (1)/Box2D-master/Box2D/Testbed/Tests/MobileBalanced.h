@@ -18,99 +18,88 @@
 
 #pragma once
 #include "vector"
+#include "FloorObject.h"
+#include "IngredientObject.h"
+#include <iostream>
+
+
+//
+//const uint16 k_defaultCategory = 0x0001;
+//const uint16 k_triangleCategory = 0x0002;
+//const uint16 k_boxCategory = 0x0004;
+//const uint16 k_circleCategory = 0x0008;
+//
+//const uint16 k_triangleMask = 0xFFFF;
+//const uint16 k_boxMask = 0xFFFF ^ k_triangleCategory;
+//const uint16 k_circleMask = 0xFFFF;
 
 class MobileBalanced : public Test
 {
 public:
-	int numOfFloor = 10;
-	enum _entityCategory {
-		BOUNDARY = 0x0001,
-		GEM = 0x0002,
-		WORKER = 0x0004,
-	};
-	enum State
-	{
-		e_unknown,
-		e_above,
-		e_below
-	};
-	int32 remainingJumpSteps;
-	float32 m_radius, m_top, m_bottom;
-	State m_state;
+	b2WeldJointDef weldJointDef;
+	int numOfFloor = 3;
+	float floorWidth = 20.0f;
+	float floorHeight = 17.5f;
+	const int16	k_smallGroup = 1;
+	const int16 k_largeGroup = -1;
 	b2Fixture* m_platform;
-	//b2Body* body2[10];
-	b2Fixture* m_character;
-	b2BodyDef bd;
-	b2Body* objBody;
-	std::vector<b2Body*> floorObj;
-
+	b2BodyDef bodyDef;
+	std::vector<FloorObject*> floorObj;
+	IngredientObject* objBody = new IngredientObject(m_world);
 	bool m_button;
+
 	MobileBalanced()
 	{
-
-		b2Vec2 deltaY(0.0f,10.0f);
-		b2Vec2 y(0.0f, 10.5f);
-		b2Vec2 gravity(0.0f, -10.0f);
-		m_world->SetGravity(gravity);
-		//Create object in 1st floor
-		{
-			b2BodyDef bodyDef;
-			bodyDef.position.Set(0.0f, 0.5f);
-			bodyDef.type = b2_dynamicBody;
-			b2Body* body = m_world->CreateBody(&bodyDef);
-			b2PolygonShape shape;
-			shape.SetAsBox(0.5f, 0.5f);
-			m_platform = body->CreateFixture(&shape, 0.0f);
-		}
+		b2Vec2 deltaY(0.0f,floorHeight);
+		b2Vec2 y(0.0f, floorHeight+0.5f);
 		//Create boundary
 		{
-			b2Body* ground = m_world->CreateBody(&bd);
+			b2Body* ground = m_world->CreateBody(&bodyDef);
 			b2EdgeShape shape;
-			shape.Set(b2Vec2(-20.0f, 0.0f), b2Vec2(20.0f, 0.0f));
+			//bottom bounadry
+			shape.Set(b2Vec2(-floorWidth, 0.0f), b2Vec2(floorWidth, 0.0f));
 			ground->CreateFixture(&shape, 0.0f);
-			shape.Set(b2Vec2(-20.0f, 10.0f*numOfFloor+10.0f), b2Vec2(20.0f, 10.0f*numOfFloor + 10.0f));
+			//top bounadry
+			shape.Set(b2Vec2(-floorWidth, floorHeight*numOfFloor+ floorHeight), b2Vec2(floorWidth, floorHeight*numOfFloor + floorHeight));
 			ground->CreateFixture(&shape, 0.0f);
-			shape.Set(b2Vec2(-20.0f, 0.0f), b2Vec2(-20.0f, 10.0f*numOfFloor + 10.0f));
+			//left bounadry
+			shape.Set(b2Vec2(-floorWidth, 0.0f), b2Vec2(-floorWidth, floorHeight*numOfFloor + floorHeight));
 			ground->CreateFixture(&shape, 0.0f);
-			shape.Set(b2Vec2(20.0f, 0.0f), b2Vec2(20.0f, 10.0f*numOfFloor + 10.0f));
+			//right bounadry
+			shape.Set(b2Vec2(floorWidth, 0.0f), b2Vec2(floorWidth, floorHeight*numOfFloor + floorHeight));
 			ground->CreateFixture(&shape, 0.0f);
+
 		}
 		//Create object for each floor
-		for (int i = 0.0f; i < numOfFloor; i++)
+		for (int i = 0; i < numOfFloor+1; i++)
 		{
-			b2Vec2 x = b2Vec2(RandomFloat(-19.0f, 19.0f), 10.5f + 10.0f*i);
-			b2BodyDef bodyDef;
-			bodyDef.type = b2_dynamicBody;
-			bodyDef.position = x;
-			b2PolygonShape shape;
-			b2Body *body2 = m_world->CreateBody(&bodyDef);
-			shape.SetAsBox(0.5f,0.5f);
-			body2->CreateFixture(&shape, 0.0f);
-			body2->SetLinearVelocity(b2Vec2(20-(rand()%2)*40, 0.0f));
-			floorObj.push_back(body2);
+			FloorObject* obj = new FloorObject(m_world, i);
+			obj->m_body->SetUserData(this);
+			floorObj.push_back(obj);
 		}
 		//Create platform for each floor
 		for(float i=0.0f ; i<numOfFloor; i++)
 		{
-			bd.position = y;
-			b2Body* body = m_world->CreateBody(&bd);
+			bodyDef.position = y;
+			bodyDef.type = b2_staticBody;
+			b2Body* body = m_world->CreateBody(&bodyDef);
+			b2FixtureDef boxShape;
 			b2PolygonShape shape;
 			shape.SetAsBox(20.0f, 0.5f);
-			body->CreateFixture(&shape, 0.0f);
+			boxShape.shape = &shape;
+			boxShape.filter.groupIndex = k_largeGroup;
+			//body->CreateFixture(&shape, 0.0f);
+			body->CreateFixture(&boxShape);
 			y += deltaY;
+
 		}
 		//Create PHO INGREDIENT
 		{
-			b2BodyDef bodyDef;
-			bodyDef.type = b2_dynamicBody;
-			bodyDef.position.Set(0.0f, 1.5f);
-			objBody = m_world->CreateBody(&bodyDef);
-			b2PolygonShape shape;
-			shape.SetAsBox(0.5f, 0.5f);
-			objBody->CreateFixture(&shape, 0.0f);
+			objBody->m_body->SetUserData(this);
+
 		}
 		m_button = false;
-
+		
 	}
 	void update(float dt)
 	{
@@ -130,32 +119,66 @@ public:
 	{
 		return new MobileBalanced;
 	}
+	void BeginContact(b2Contact* contact)
+	{
+		b2Body* b1 = contact->GetFixtureA()->GetBody();
+		b2Body* b2 = contact->GetFixtureB()->GetBody();
+		void* bodyAUserData = b1->GetUserData();
+		void* bodyBUserData = b2->GetUserData();
+		if (bodyAUserData == bodyBUserData )
+		{
+			b2Vec2 worldCoordsAnchorPoint = b2->GetWorldPoint(b2Vec2(0.6f, 0));
+			weldJointDef.bodyA = b1;
+			weldJointDef.bodyB = b2;
+			weldJointDef.localAnchorA = weldJointDef.bodyA->GetLocalPoint(worldCoordsAnchorPoint);
+			weldJointDef.localAnchorB = weldJointDef.localAnchorA + b2Vec2(0, 2.5f);
+			weldJointDef.referenceAngle = weldJointDef.bodyB->GetAngle() - weldJointDef.bodyA->GetAngle();
+			//m_button = true;
+			std::cout << "cac";
+			weldJointDef.userData = NULL;
+
+		}
+
+	}
 	void Step(Settings* settings)
 	{
-
-		if (m_button)
+		static b2WeldJoint* weldJoint;
+		if (weldJointDef.bodyA != nullptr)
+		{ 
+			if (weldJointDef.userData == NULL)
+			{
+				weldJoint = (b2WeldJoint*)m_world->CreateJoint(&weldJointDef);
+				weldJointDef.userData = "a";
+			}
+		}
+		if (m_button && weldJoint != nullptr)
 		{
+			m_world->DestroyJoint(weldJoint);
+			weldJoint = NULL;
+			float impulse = objBody->m_body->GetMass() * 0.2;
+			objBody->m_body->ApplyLinearImpulse(b2Vec2(0, 20), objBody->m_body->GetWorldCenter(), true);
+			m_button = false;
 
 		}
 		for(int i=0;i<floorObj.size();i++)
 		{
-			b2Vec2 vel = floorObj[i]->GetLinearVelocity();
-			if (floorObj[i]->GetPosition().x < -19.0f)
+			b2Vec2 vel = floorObj[i]->m_body->GetLinearVelocity();
+			if (floorObj[i]->m_body->GetPosition().x < -18.0f)
 			{
-			vel.x = 20;
+				vel.x = 20;
 			}
-			else if (floorObj[i]->GetPosition().x > 19.0f)
+			else if (floorObj[i]->m_body->GetPosition().x > 18.0f)
 			{
-			vel.x = -20;
+				vel.x = -20;
 			}
-			floorObj[i]->SetLinearVelocity(vel);
+			floorObj[i]->m_body->SetLinearVelocity(vel);
 		}
 
 		Test::Step(settings);
 
 		g_debugDraw.DrawString(5, m_textLine, "Press 'a' to control the flippers");
 		m_textLine += DRAW_STRING_NEW_LINE;
-
+		
 	}
 
 };

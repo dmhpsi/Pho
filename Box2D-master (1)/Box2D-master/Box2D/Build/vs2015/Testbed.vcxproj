@@ -116,12 +116,15 @@
     <ClInclude Include="..\..\Testbed\Tests\DynamicTreeTest.h" />
     <ClInclude Include="..\..\Testbed\Tests\EdgeShapes.h" />
     <ClInclude Include="..\..\Testbed\Tests\EdgeTest.h" />
+    <ClInclude Include="..\..\Testbed\Tests\FloorObject.h" />
     <ClInclude Include="..\..\Testbed\Tests\Gears.h" />
     <ClInclude Include="..\..\Testbed\Tests\HeavyOnLight.h" />
     <ClInclude Include="..\..\Testbed\Tests\HeavyOnLightTwo.h" />
+    <ClInclude Include="..\..\Testbed\Tests\IngredientObject.h" />
     <ClInclude Include="..\..\Testbed\Tests\Mobile.h" />
     <ClInclude Include="..\..\Testbed\Tests\MobileBalanced.h" />
     <ClInclude Include="..\..\Testbed\Tests\MotorJoint.h" />
+    <ClInclude Include="..\..\Testbed\Tests\MyContactListener.h" />
     <ClInclude Include="..\..\Testbed\Tests\OneSidedPlatform.h" />
     <ClInclude Include="..\..\Testbed\Tests\Pinball.h" />
     <ClInclude Include="..\..\Testbed\Tests\PolyCollision.h" />

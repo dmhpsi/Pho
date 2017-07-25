@@ -183,6 +183,15 @@
     <ClInclude Include="Group2.h">
       <Filter>Tests</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Testbed\Tests\FloorObject.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Testbed\Tests\IngredientObject.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Testbed\Tests\MyContactListener.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Testbed\Framework\DebugDraw.cpp">

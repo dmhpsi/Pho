@@ -211,7 +211,7 @@ void b2World::DestroyBody(b2Body* b)
 
 b2Joint* b2World::CreateJoint(const b2JointDef* def)
 {
-	b2Assert(IsLocked() == false);
+	//b2Assert(IsLocked() == false);
 	if (IsLocked())
 	{
 		return nullptr;

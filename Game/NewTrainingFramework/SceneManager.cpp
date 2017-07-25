@@ -35,9 +35,6 @@ void SceneManager::Init(const char *smFile)
 			fscanf_s(Resource, "TEXTURE %d\n", &tmp);
 			listObject[i].listTextures = (Texture*)ResourceManager::GetInstance()->GetObjPart(OBJ_TEXTURE, tmp);
 		}
-		else
-		{
-		}
 		fscanf_s(Resource, "MSPF %d\n", &listObject[i].mspf);
 
 		fscanf_s(Resource, "SHADER %d\n", &tmp);
@@ -46,7 +43,6 @@ void SceneManager::Init(const char *smFile)
 		Matrix s, t, r;
 		float x, y, z;
 		fscanf_s(Resource, "POSITION %f, %f, %f\n", &x, &y, &z);
-		//t.SetTranslation(x, y, z);
 		t.SetTranslation(x / sceneWidth, y / sceneHeight*2, z);
 		fscanf_s(Resource, "ROTATION %f\n", &x);
 		x *= PI / 180;

@@ -49,20 +49,7 @@ void ResourceManager::Init(const char* rmFile)
 			listTextures[i].LoadToGPU(link, NORMAL_OBJ, GL_CLAMP_TO_EDGE);
 	}
 
-	fscanf_s(Resource, "#Cube Textures: %d\n", &numSkyTextures);
-	listSkyTextures = new Texture[numSkyTextures];
-	for (int i = 0; i < numSkyTextures; i++)
-	{
-		fscanf_s(Resource, "ID %d\n", &listSkyTextures[i].ID);
-		fscanf(Resource, "FILE \"%s\n", link);
-		link[strlen(link) - 1] = NULL;
-		fscanf(Resource, "TILING %s\n", mode);
-		if (strcmp("REPEAT", mode) == 0)
-			listSkyTextures[i].LoadToGPU(link, SKY_OBJ, GL_REPEAT);
-		else
-			listSkyTextures[i].LoadToGPU(link, SKY_OBJ, GL_CLAMP_TO_EDGE);
-	}
-
+	// Number of shaders
 	fscanf(Resource, "#Shaders: %d\n", &numShaders);
 	listShaders = new Shaders[numShaders];
 	for (int i = 0; i < numShaders; i++)
@@ -73,6 +60,17 @@ void ResourceManager::Init(const char* rmFile)
 		fscanf(Resource, "FS \"%s\n", link2);
 		link2[strlen(link2) - 1] = NULL;
 		listShaders[i].Init(link, link2);
+	}
+
+	// Number of Scenes
+	fscanf(Resource, "#Scenes: %d\n", &numScenes);
+	for (int i = 0; i < numScenes; i++)
+	{
+		int id;
+		fscanf_s(Resource, "ID %d\n",&id);
+		fscanf(Resource, "FILE \"%s\n", link);
+		link[strlen(link) - 1] = NULL;
+		listScenes.push_back(link);
 	}
 	fclose(Resource);
 }
@@ -97,15 +95,6 @@ void* ResourceManager::GetObjPart(MyEnum type, int ID)
 		}
 		return 0;
 	}
-	else if (type == OBJ_SKY_TEXTURE)
-	{
-		for (int i = 0; i < numSkyTextures; i++)
-		{
-			if (listSkyTextures[i].ID == ID)
-				return &listSkyTextures[i];
-		}
-		return 0;
-	}
 	else // if (type == OBJ_SHADER)
 	{
 		for (int i = 0; i < numShaders; i++)
@@ -127,6 +116,5 @@ ResourceManager::~ResourceManager()
 {
 	delete[] listModels;
 	delete[] listShaders;
-	delete[] listSkyTextures;
 	delete[] listTextures;
 }

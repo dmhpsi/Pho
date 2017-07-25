@@ -3,16 +3,7 @@
 
 Camera::Camera()
 {
-	//height = MID_CAM;
-	position = Vector3(0, 0, 0);
-	target = Vector3(0, 0, -1);
-	up = Vector3(0, 1, 0);
-	direction = 0;
-	jumping = false;
-	freeMode = true;
-
-	R.SetTranslation(target.x, target.y, target.z + 1);
-	T.SetTranslation(position.x, position.y, position.z);
+	Reset();
 }
 
 Matrix Camera::ViewTheWorld()
@@ -113,13 +104,12 @@ void Camera::Duck(bool set)
 
 void Camera::Reset()
 {
-	height = MID_CAM;
-	position = Vector3(0, height, 4);
-	target = Vector3(0, height, 3);
+	position = Vector3(0, 0, 0);
+	target = Vector3(0, 0, -1);
 	up = Vector3(0, 1, 0);
 	direction = 0;
 	jumping = false;
-	freeMode = false;
+	freeMode = true;
 
 	R.SetTranslation(target.x, target.y, target.z + 1);
 	T.SetTranslation(position.x, position.y, position.z);

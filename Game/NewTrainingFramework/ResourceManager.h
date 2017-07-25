@@ -4,6 +4,8 @@
 #include "Texture.h"
 #include "Vertex.h"
 #include "Shaders.h"
+#include <vector>
+using namespace std;
 
 class ResourceManager
 {
@@ -22,9 +24,9 @@ public:
 	int numTextures;
 	Texture* listTextures;
 
-	int numSkyTextures;
-	Texture* listSkyTextures;
-
 	int numShaders;
 	Shaders* listShaders;
+
+	int numScenes;
+	vector<const char *> listScenes;
 };

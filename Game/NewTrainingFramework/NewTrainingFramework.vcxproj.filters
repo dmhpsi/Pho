@@ -118,10 +118,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\Resources\Resource files\rm.txt">
+    <Text Include="..\Resources\Resource_files\level1.txt">
       <Filter>Resources</Filter>
     </Text>
-    <Text Include="..\Resources\Resource files\sm.txt">
+    <Text Include="..\Resources\Resource_files\rm.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\bear.txt">
       <Filter>Resources</Filter>
     </Text>
   </ItemGroup>

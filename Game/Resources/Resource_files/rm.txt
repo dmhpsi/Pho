@@ -6,39 +6,41 @@ FILE "../Resources/Models/sprite.nfg"
 ID 0
 FILE "../Resources/Textures/aquaani.tga"
 FRAGS 4
-TILING REPEAT
+TILING CLAMP
 ID 1
-FILE "../Resources/Textures/arcade.tga"
-FRAGS 1
-TILING REPEAT
+FILE "../Resources/Textures/Arcadeani.tga"
+FRAGS 4
+TILING CLAMP
 ID 2
 FILE "../Resources/Textures/bakery.tga"
 FRAGS 1
-TILING REPEAT
+TILING CLAMP
 ID 3
 FILE "../Resources/Textures/background.tga"
 FRAGS 1
-TILING REPEAT
+TILING CLAMP
 ID 4
 FILE "../Resources/Textures/barbershop.tga"
 FRAGS 1
-TILING REPEAT
+TILING CLAMP
 ID 5
 FILE "../Resources/Textures/bikeshop.tga"
 FRAGS 1
-TILING REPEAT
+TILING CLAMP
 ID 6
 FILE "../Resources/Textures/bank.tga"
 FRAGS 1
-TILING REPEAT
+TILING CLAMP
 ID 7
 FILE "../Resources/Textures/bear.tga"
-FRAGS 1
-TILING REPEAT
-
-#Cube Textures: 0
+FRAGS 10
+TILING CLAMP
 
 #Shaders: 1
 ID 0
 VS "../Resources/Shaders/TriangleShaderVS.vs"
 FS "../Resources/Shaders/TriangleShaderFS.fs"
+
+#Scenes: 1
+ID 0
+FILE "../Resources/Resource_files/level1.txt"

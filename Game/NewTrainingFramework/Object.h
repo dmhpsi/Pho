@@ -16,7 +16,7 @@ public:
 	Model* model;
 	int numTextures, mspf;
 	float w, h;
-	Texture** listTextures;
+	Texture* listTextures;
 	Shaders* shader;
 	void Draw();
 	Matrix W;

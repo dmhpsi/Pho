@@ -18,7 +18,10 @@ void ResourceManager::Init(const char* rmFile)
 	char link[200], link2[200];
 	FILE *Resource;
 	fopen_s(&Resource, rmFile, "r");
+
+	// assign numModels variable
 	fscanf_s(Resource, "#Models: %d\n", &numModels);
+	// create a list of models
 	listModels = new Model[numModels];
 	for (int i = 0; i < numModels; i++)
 	{
@@ -28,7 +31,9 @@ void ResourceManager::Init(const char* rmFile)
 		listModels[i].LoadNFG(link);
 	}
 	
+	// assign numTextures variable
 	fscanf_s(Resource, "#2D Textures: %d\n", &numTextures);
+	// create a list of textures
 	listTextures = new Texture[numTextures];
 	char mode[50];
 	for (int i = 0; i < numTextures; i++)
@@ -36,6 +41,7 @@ void ResourceManager::Init(const char* rmFile)
 		fscanf_s(Resource, "ID %d\n", &listTextures[i].ID);
 		fscanf(Resource, "FILE \"%s\n", link);
 		link[strlen(link) - 1] = NULL;
+		fscanf(Resource, "FRAGS %d\n", &listTextures[i].numOfFragments);
 		fscanf(Resource, "TILING %s\n", mode);
 		if (strcmp("REPEAT", mode) == 0)
 			listTextures[i].LoadToGPU(link, NORMAL_OBJ, GL_REPEAT);

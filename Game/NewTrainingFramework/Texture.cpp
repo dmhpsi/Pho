@@ -5,24 +5,40 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 {
 	img = LoadTGA(FileName, &width, &height, &bpp);
 
-	glGenTextures(1, &texId);
 	if (type == NORMAL_OBJ)
 	{
-		glBindTexture(GL_TEXTURE_2D, texId);
-		if (bpp == 24)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
-		else
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
+		int totalPixelsPerFrag = width * (height / numOfFragments) * bpp / 8;
+		texId = new GLuint[numOfFragments];
+		for (int i = 0; i < numOfFragments; i++)
+		{
+			glGenTextures(1, &texId[i]);
+			glBindTexture(GL_TEXTURE_2D, texId[i]);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, clampMode);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, clampMode);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			// Crop a children texture
+			//memcpy(fragment, img + sizeof(char) * totalPixelsPerFrag * i, totalPixelsPerFrag);
+
+			if (bpp == 24)
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height / numOfFragments, 0, GL_RGB, GL_UNSIGNED_BYTE, img + sizeof(char)* totalPixelsPerFrag * i);
+			}
+			else
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height / numOfFragments, 0, GL_RGBA, GL_UNSIGNED_BYTE, img + sizeof(char)* totalPixelsPerFrag * i);
+			}
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, clampMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, clampMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 	else 
 	{
+		glGenTextures(1, &texId[0]);
 		char* face[6];
-		glBindTexture(GL_TEXTURE_CUBE_MAP, texId);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, texId[0]);
 
 		char *imgPtr, *facePtr;
 		imgPtr = img;
@@ -70,9 +86,6 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 		}
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	}
-
-
-	glBindTexture(GL_TEXTURE_2D, 0);
 	if (img)
 		delete img;
 }
@@ -88,4 +101,5 @@ Texture::Texture()
 
 Texture::~Texture()
 {
+	delete [] texId;
 }

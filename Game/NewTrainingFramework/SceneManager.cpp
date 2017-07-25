@@ -30,19 +30,13 @@ void SceneManager::Init(const char *smFile)
 		listObject[i].model = (Model*)ResourceManager::GetInstance()->GetObjPart(OBJ_MODEL, tmp);
 		fscanf_s(Resource, "TEXTURES %d\n", &listObject[i].numTextures);
 
-		tmp = -1237841278;
 		if (listObject[i].numTextures > 0)
 		{
-			listObject[i].listTextures = new Texture*[listObject[i].numTextures];
-			for (int j = 0; j < listObject[i].numTextures; j++)
-			{
-				fscanf_s(Resource, "TEXTURE %d\n", &tmp);
-				listObject[i].listTextures[j] = (Texture*)ResourceManager::GetInstance()->GetObjPart(OBJ_TEXTURE, tmp);
-			}
+			fscanf_s(Resource, "TEXTURE %d\n", &tmp);
+			listObject[i].listTextures = (Texture*)ResourceManager::GetInstance()->GetObjPart(OBJ_TEXTURE, tmp);
 		}
 		else
 		{
-			listObject[i].listTextures = new Texture*[1];
 		}
 		fscanf_s(Resource, "MSPF %d\n", &listObject[i].mspf);
 
@@ -98,6 +92,6 @@ void SceneManager::CleanInstance()
 
 SceneManager::~SceneManager()
 {
-	delete[] listObject;
+	delete []listObject;
 }
 

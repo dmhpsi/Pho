@@ -15,16 +15,10 @@ void Object::Draw()
 
 	glBindBuffer(GL_ARRAY_BUFFER, model->vboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->iboId);
+				
+	glBindTexture(GL_TEXTURE_2D, listTextures->texId[currentTick / mspf % listTextures->numOfFragments]);
 
-	GLint uni[4];
-	uni[0] = glGetUniformLocation(shader->program, "u_tex1");
-	uni[1] = glGetUniformLocation(shader->program, "u_tex2");
-	uni[2] = glGetUniformLocation(shader->program, "u_tex3");
-	uni[3] = glGetUniformLocation(shader->program, "u_tex4");
-			
-	glBindTexture(GL_TEXTURE_2D, listTextures[currentTick / mspf % numTextures]->texId);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, listTextures[0]->texId);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, listTextures->texId[0]);
 
 	if (shader->positionAttribute != -1)
 	{
@@ -47,5 +41,4 @@ void Object::Draw()
 
 Object::~Object()
 {
-	delete[]listTextures;
 }

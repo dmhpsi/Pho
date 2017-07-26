@@ -12,6 +12,8 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "Camera.h"
+#include <Windows.h>
+#include <mmsystem.h>
 
 
 int Init(ESContext *esContext);

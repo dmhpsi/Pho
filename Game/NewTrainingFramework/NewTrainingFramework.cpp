@@ -8,20 +8,20 @@ Matrix globalVP;
 
 int currentTick;
 
-int Init ( ESContext *esContext )
+int Init(ESContext *esContext)
 {
-	glClearColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST); 
 	ResourceManager* instance = ResourceManager::GetInstance();
 	instance->Init("../Resources/Resource_files/rm.txt");
 	char *test = "../Resources/Resource_files/level1.txt";
 	//char *test2 = ResourceManager::GetInstance()->listScenes[0];
 	SceneManager::GetInstance()->Init("../Resources/Resource_files/level1.txt");
-
+	PlaySound(TEXT("../Resources/Sounds/YumewoKanaete.wav"), NULL, SND_ASYNC | SND_LOOP);
 	return 0;
 }
 
-void Draw ( ESContext *esContext )
+void Draw(ESContext *esContext)
 {
 	glEnable(GL_BLEND);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -31,11 +31,11 @@ void Draw ( ESContext *esContext )
 
 	SceneManager::GetInstance()->Draw(-1);
 
-	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
 	currentTick = GetTickCount();
 }
 
-void Update ( ESContext *esContext, float deltaTime )
+void Update(ESContext *esContext, float deltaTime)
 {
 	if (deltaTime > 0)
 	{
@@ -43,7 +43,7 @@ void Update ( ESContext *esContext, float deltaTime )
 	}
 }
 
-void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
+void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 {
 	//if (key == 0x41)
 	//{
@@ -98,6 +98,14 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 	//{
 	//	Camera::GetInstance()->Act(RESET, bIsPressed);
 	//}
+	else if (key == VK_F6)
+	{
+		PlaySound(NULL, NULL, SND_ASYNC | SND_LOOP);
+	}
+	else if (key == VK_F7)
+	{
+		PlaySound(TEXT("../Resources/Sounds/YumewoKanaete.wav"), NULL, SND_ASYNC | SND_LOOP);
+	}
 }
 
 void CleanUp()

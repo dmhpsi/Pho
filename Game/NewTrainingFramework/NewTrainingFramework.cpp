@@ -16,7 +16,7 @@ int Init ( ESContext *esContext )
 	instance->Init("../Resources/Resource_files/rm.txt");
 	char *test = "../Resources/Resource_files/level1.txt";
 	//char *test2 = ResourceManager::GetInstance()->listScenes[0];
-	SceneManager::GetInstance()->Init("../Resources/Resource_files/bear.txt");
+	SceneManager::GetInstance()->Init("../Resources/Resource_files/level1.txt");
 
 	return 0;
 }
@@ -45,23 +45,23 @@ void Update ( ESContext *esContext, float deltaTime )
 
 void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 {
-	if (key == 0x41)
-	{
-		Camera::GetInstance()->Act(LOOK_LEFT, bIsPressed);
-	}
-	else if (key == 0x44)
-	{
-		Camera::GetInstance()->Act(LOOK_RIGHT, bIsPressed);
-	}
-	else if (key == 0x57)
-	{
-		Camera::GetInstance()->Act(LOOK_UP, bIsPressed);
-	}
-	else if (key == 0x53)
-	{
-		Camera::GetInstance()->Act(LOOK_DOWN, bIsPressed);
-	}
-	else 
+	//if (key == 0x41)
+	//{
+	//	Camera::GetInstance()->Act(LOOK_LEFT, bIsPressed);
+	//}
+	//else if (key == 0x44)
+	//{
+	//	Camera::GetInstance()->Act(LOOK_RIGHT, bIsPressed);
+	//}
+	//else if (key == 0x57)
+	//{
+	//	Camera::GetInstance()->Act(LOOK_UP, bIsPressed);
+	//}
+	//else if (key == 0x53)
+	//{
+	//	Camera::GetInstance()->Act(LOOK_DOWN, bIsPressed);
+	//}
+	//else 
 	if (key == VK_UP)
 	{
 		Camera::GetInstance()->Act(MOVE_UP, bIsPressed);
@@ -70,14 +70,14 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 	{
 		Camera::GetInstance()->Act(MOVE_DOWN, bIsPressed);
 	}
-	else if (key == VK_LEFT)
-	{
-		Camera::GetInstance()->Act(MOVE_LEFT, bIsPressed);
-	}
-	else if (key == VK_RIGHT)
-	{
-		Camera::GetInstance()->Act(MOVE_RIGHT, bIsPressed);
-	}
+	//else if (key == VK_LEFT)
+	//{
+	//	Camera::GetInstance()->Act(MOVE_LEFT, bIsPressed);
+	//}
+	//else if (key == VK_RIGHT)
+	//{
+	//	Camera::GetInstance()->Act(MOVE_RIGHT, bIsPressed);
+	//}
 	//else if (key == VK_CONTROL)
 	//{
 	//	Camera::GetInstance()->Act(DUCKING, bIsPressed);

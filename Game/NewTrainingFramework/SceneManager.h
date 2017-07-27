@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Object.h"
+#include "Camera.h"
 #include <stdarg.h>
 
 extern int currentTick;

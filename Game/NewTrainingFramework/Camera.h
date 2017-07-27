@@ -5,7 +5,7 @@
 class Camera
 {
 	Vector3 position, target, up;
-	Matrix T, R, W;
+	Matrix T, R, W, O;
 	int direction;
 	static Camera* Instance;
 	float height;
@@ -14,6 +14,7 @@ class Camera
 	bool freeMode;
 public:
 	Camera();
+	float speed;
 	static Camera* GetInstance();
 	static void CleanInstance();
 	void Act(MyEnum what, bool set);
@@ -22,6 +23,7 @@ public:
 	void LookUp(GLfloat angle);
 	void MoveUp(GLfloat distance);
 	void MoveLeft(GLfloat distance);
+	void SetOrtho(float l, float r, float b, float t, float n, float f);
 	void Duck(bool set);
 	void Reset();
 	Matrix ViewTheWorld();

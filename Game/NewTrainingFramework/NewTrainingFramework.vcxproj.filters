@@ -54,6 +54,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Z Source</Filter>
     </ClCompile>
+    <ClCompile Include="TextManager.cpp">
+      <Filter>Z Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -95,6 +98,9 @@
     <ClInclude Include="NewTrainingFramework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextManager.h">
+      <Filter>Z Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\TriangleShaderFS.fs">
@@ -114,6 +120,12 @@
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\Terrain.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\FontShaderFS.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\FontShaderVS.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>

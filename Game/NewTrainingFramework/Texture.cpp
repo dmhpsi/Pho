@@ -3,10 +3,10 @@
 
 void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 {
-	img = LoadTGA(FileName, &width, &height, &bpp);
-
+	// If texture is a .tga file
 	if (type == NORMAL_OBJ)
 	{
+		img = LoadTGA(FileName, &width, &height, &bpp);
 		int totalPixelsPerFrag = width * (height / numOfFragments) * bpp / 8;
 		texId = new GLuint[numOfFragments];
 		for (int i = 0; i < numOfFragments; i++)
@@ -33,6 +33,11 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
+	}
+	// if teture is font type
+	else if (type == OBJ_FONT)
+	{
+
 	}
 	if (img)
 		delete img;

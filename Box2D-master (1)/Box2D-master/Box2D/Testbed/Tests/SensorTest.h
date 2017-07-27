@@ -26,7 +26,7 @@ public:
 
 	enum
 	{
-		e_count = 7
+		e_count = 1
 	};
 
 	SensorTest()
@@ -37,6 +37,7 @@ public:
 
 			{
 				b2EdgeShape shape;
+
 				shape.Set(b2Vec2(-40.0f, 0.0f), b2Vec2(40.0f, 0.0f));
 				ground->CreateFixture(&shape, 0.0f);
 			}
@@ -53,9 +54,10 @@ public:
 				b2CircleShape shape;
 				shape.m_radius = 5.0f;
 				shape.m_p.Set(0.0f, 10.0f);
-
+				
 				b2FixtureDef fd;
 				fd.shape = &shape;
+
 				fd.isSensor = true;
 				m_sensor = ground->CreateFixture(&fd);
 			}
@@ -164,6 +166,7 @@ public:
 
 			d.Normalize();
 			b2Vec2 F = 100.0f * d;
+			
 			body->ApplyForce(F, position, false);
 		}
 	}

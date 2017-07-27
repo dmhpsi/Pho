@@ -3,6 +3,7 @@ ID 0
 FILE "../Resources/Models/sprite.nfg"
 
 #2D Textures: 8
+#FONTS: 1
 ID 0
 FILE "../Resources/Textures/aquaani.tga"
 FRAGS 4
@@ -35,12 +36,20 @@ ID 7
 FILE "../Resources/Textures/bear.tga"
 FRAGS 10
 TILING CLAMP
+ID 8
+FILE "../Resources/Fonts/NanumGothicBold.ttf"
 
 #Shaders: 1
 ID 0
 VS "../Resources/Shaders/TriangleShaderVS.vs"
 FS "../Resources/Shaders/TriangleShaderFS.fs"
 
-#Scenes: 1
+#Scenes: 2
 ID 0
 FILE "../Resources/Resource_files/level1.txt"
+ID 1
+FILE "../Resources/Resource_files/bear.txt"
+
+#Sounds: 1
+ID 0
+FILE "../Resources/Sounds/NewDevide.ogg"

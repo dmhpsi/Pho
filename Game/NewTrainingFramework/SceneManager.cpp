@@ -20,6 +20,10 @@ void SceneManager::Init(const char *smFile)
 	fopen_s(&Resource, smFile, "r");
 	fscanf_s(Resource, "#Scene Width: %f\n", &sceneWidth);
 	sceneHeight = sceneWidth*Globals::screenHeight / Globals::screenWidth;
+
+	Camera::GetInstance()->SetOrtho(-sceneWidth / 2, sceneWidth / 2, -sceneHeight / 2, sceneHeight / 2, -1, 1);
+	Camera::GetInstance()->speed = sceneHeight / 2;
+
 	fscanf_s(Resource, "#Backgrounds: %d\n", &numBg);
 	fscanf_s(Resource, "#Objects: %d\n", &numObject);
 	listObject = new Object[numObject + numBg];
@@ -27,34 +31,32 @@ void SceneManager::Init(const char *smFile)
 	{
 		fscanf_s(Resource, "ID %d\n", &listObject[i].ID);
 		fscanf_s(Resource, "MODEL %d\n", &tmp);
-		listObject[i].model = (Model*)ResourceManager::GetInstance()->GetObjPart(OBJ_MODEL, tmp);
+		listObject[i].model = (Model*)ResourceManager::GetInstance()->GetResource(OBJ_MODEL, tmp);
 		fscanf_s(Resource, "TEXTURES %d\n", &listObject[i].numTextures);
 
 		if (listObject[i].numTextures > 0)
 		{
 			fscanf_s(Resource, "TEXTURE %d\n", &tmp);
-			listObject[i].listTextures = (Texture*)ResourceManager::GetInstance()->GetObjPart(OBJ_TEXTURE, tmp);
+			listObject[i].listTextures = (Texture*)ResourceManager::GetInstance()->GetResource(OBJ_TEXTURE, tmp);
 		}
 		fscanf_s(Resource, "MSPF %d\n", &listObject[i].mspf);
 
 		fscanf_s(Resource, "SHADER %d\n", &tmp);
-		listObject[i].shader = (Shaders*)ResourceManager::GetInstance()->GetObjPart(OBJ_SHADER, tmp);
+		listObject[i].shader = (Shaders*)ResourceManager::GetInstance()->GetResource(OBJ_SHADER, tmp);
 
 		Matrix s, t, r;
 		float x, y, z;
 		fscanf_s(Resource, "POSITION %f, %f, %f\n", &x, &y, &z);
-		t.SetTranslation(x / sceneWidth, y / sceneHeight*2, z);
+		t.SetTranslation(x, y, z);
 		fscanf_s(Resource, "ROTATION %f\n", &x);
 		x *= PI / 180;
 		r.SetRotationZ(x);
 
 		fscanf_s(Resource, "SCALE %f\n", &x);
 		fscanf_s(Resource, "SIZE %f, %f\n", &listObject[i].w, &listObject[i].h);
-		x *= listObject[i].w / sceneWidth;
-		s.SetScale(x,
-			x * listObject[i].h / listObject[i].w * sceneWidth / sceneHeight,
-			1);
-		listObject[i].W = r*s*t;
+		x *= listObject[i].w / 2;
+		s.SetScale(x, x*listObject[i].h / listObject[i].w, 1);
+		listObject[i].W = s*r*t;
 	}
 }
 

@@ -33,8 +33,10 @@ void ResourceManager::Init(const char* rmFile)
 	
 	// assign numTextures variable
 	fscanf_s(Resource, "#2D Textures: %d\n", &numTextures);
+	fscanf_s(Resource, "#FONTS: %d\n", &numFonts);
+
 	// create a list of textures
-	listTextures = new Texture[numTextures];
+	listTextures = new Texture[numTextures + numFonts];
 	char mode[50];
 	for (int i = 0; i < numTextures; i++)
 	{
@@ -47,6 +49,15 @@ void ResourceManager::Init(const char* rmFile)
 			listTextures[i].LoadToGPU(link, NORMAL_OBJ, GL_REPEAT);
 		else
 			listTextures[i].LoadToGPU(link, NORMAL_OBJ, GL_CLAMP_TO_EDGE);
+	}
+
+	// Read font type from rm.txt
+	for (int i = 0; i < numFonts; i++)
+	{
+		fscanf_s(Resource, "ID %d\n", &listTextures[numTextures + i].ID);
+		fscanf(Resource, "FILE \"%s\n", link);
+		link[strlen(link) - 1] = NULL;
+		listTextures[numTextures + i].LoadToGPU(link, OBJ_FONT, GL_CLAMP_TO_EDGE);
 	}
 
 	// Number of shaders
@@ -62,20 +73,37 @@ void ResourceManager::Init(const char* rmFile)
 		listShaders[i].Init(link, link2);
 	}
 
-	// Number of Scenes
 	fscanf(Resource, "#Scenes: %d\n", &numScenes);
+	listScenes = new char*[numScenes];
+	SceneIDs = new int[numScenes];
 	for (int i = 0; i < numScenes; i++)
 	{
-		int id;
-		fscanf_s(Resource, "ID %d\n",&id);
-		fscanf(Resource, "FILE \"%s\n", link);
-		link[strlen(link) - 1] = NULL;
-		listScenes.push_back(link);
+		char tmp[500];
+		fscanf_s(Resource, "ID %d\n",&SceneIDs[i]);
+		fscanf(Resource, "FILE \"%s\n", tmp);
+		tmp[strlen(tmp) - 1] = NULL;
+		listScenes[i] = new char[strlen(tmp) + 1];
+		memset(listScenes[i], NULL, strlen(tmp));
+		memcpy(listScenes[i], tmp, strlen(tmp));
+		listScenes[i][strlen(tmp)] = NULL;
 	}
-	fclose(Resource);
+
+	// Load sound
+	fscanf(Resource, "#Sounds: %d\n", &numSounds);
+	listSounds = new sf::Music[numSounds];
+	SoundIDs = new int[numSounds];
+	for (int i = 0; i < numSounds; i++)
+	{
+		char tmp[500];
+		fscanf_s(Resource, "ID %d\n", &SceneIDs[i]);
+		fscanf(Resource, "FILE \"%s\n", tmp);
+		tmp[strlen(tmp) - 1] = NULL;
+		if (!listSounds[i].openFromFile(tmp))
+			SoundIDs[i] = -1;
+	}
 }
 
-void* ResourceManager::GetObjPart(MyEnum type, int ID)
+void* ResourceManager::GetResource(MyEnum type, int ID)
 {
 	if (type == OBJ_MODEL)
 	{
@@ -84,7 +112,6 @@ void* ResourceManager::GetObjPart(MyEnum type, int ID)
 			if (listModels[i].ID == ID)
 				return &listModels[i];
 		}
-		return 0;
 	}
 	else if (type == OBJ_TEXTURE)
 	{
@@ -93,17 +120,24 @@ void* ResourceManager::GetObjPart(MyEnum type, int ID)
 			if (listTextures[i].ID == ID)
 				return &listTextures[i];
 		}
-		return 0;
 	}
-	else // if (type == OBJ_SHADER)
+	else if (type == OBJ_SHADER)
 	{
 		for (int i = 0; i < numShaders; i++)
 		{
 			if (listShaders[i].ID == ID)
 				return &listShaders[i];
 		}
-		return 0;
 	}
+	else if (type == SCENE)
+	{
+		for (int i = 0; i < numScenes; i++)
+		{
+			if (SceneIDs[i] == ID)
+				return listScenes[i];
+		}
+	}
+	return 0;
 }
 
 void ResourceManager::CleanInstance()
@@ -113,8 +147,19 @@ void ResourceManager::CleanInstance()
 }
 
 ResourceManager::~ResourceManager()
-{
+{   
 	delete[] listModels;
 	delete[] listShaders;
 	delete[] listTextures;
+	delete []SceneIDs;
+	for (int i = 0; i < numScenes; i++)
+		delete listScenes[i];
+	delete[] listScenes;
+	for (int i = 0; i < numSounds; i++)
+		if (listSounds[i].getStatus() == sf::Music::Playing)
+			listSounds[i].stop();
+
+	// Cause memory corruption if deleted
+	//delete[] listSounds;
+	delete[] SoundIDs;
 }

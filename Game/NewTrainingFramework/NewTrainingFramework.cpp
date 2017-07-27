@@ -5,19 +5,26 @@
 #include "NewTrainingFramework.h"
 
 Matrix globalVP;
-
+TextManager *tm;
 int currentTick;
+Shaders fontShader;
 
 int Init(ESContext *esContext)
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST); 
+
+	// Create an instance of Resource and Scene to manage easily
 	ResourceManager* instance = ResourceManager::GetInstance();
 	instance->Init("../Resources/Resource_files/rm.txt");
-	char *test = "../Resources/Resource_files/level1.txt";
-	//char *test2 = ResourceManager::GetInstance()->listScenes[0];
-	SceneManager::GetInstance()->Init("../Resources/Resource_files/level1.txt");
-	PlaySound(TEXT("../Resources/Sounds/YumewoKanaete.wav"), NULL, SND_ASYNC | SND_LOOP);
+	SceneManager::GetInstance()->Init("../Resources/Resource_files/bear.txt");
+
+	// Create an instance of class TextManager to handle font
+	tm = new TextManager();
+	tm->Initialize();
+	instance->listSounds[0].play();
+
+	fontShader.Init("../Resources/Shaders/FontShaderVS.vs", "../Resources/Shaders/FontShaderFS.fs");
 	return 0;
 }
 
@@ -30,6 +37,11 @@ void Draw(ESContext *esContext)
 	globalVP = Camera::GetInstance()->ViewTheWorld();
 
 	SceneManager::GetInstance()->Draw(-1);
+
+	 //Draw text
+	glUseProgram(fontShader.program);
+	Vector4 color = Vector4(0, 0, 0, 1);
+	tm->RenderString("H", color, 0, 0, 10, 10);
 
 	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
 	currentTick = GetTickCount();
@@ -98,14 +110,6 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	//{
 	//	Camera::GetInstance()->Act(RESET, bIsPressed);
 	//}
-	else if (key == VK_F6)
-	{
-		PlaySound(NULL, NULL, SND_ASYNC | SND_LOOP);
-	}
-	else if (key == VK_F7)
-	{
-		PlaySound(TEXT("../Resources/Sounds/YumewoKanaete.wav"), NULL, SND_ASYNC | SND_LOOP);
-	}
 }
 
 void CleanUp()
@@ -113,5 +117,6 @@ void CleanUp()
 	ResourceManager::GetInstance()->CleanInstance();
 	SceneManager::GetInstance()->CleanInstance();
 	Camera::GetInstance()->CleanInstance();
+	delete tm;
 }
 

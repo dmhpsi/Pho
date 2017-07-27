@@ -1,6 +1,19 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+void Camera::Reset()
+{
+	position = Vector3(0, 0, 0);
+	target = Vector3(0, 0, -1);
+	up = Vector3(0, 1, 0);
+	direction = 0;
+	jumping = false;
+	freeMode = true;
+
+	R.SetTranslation(target.x, target.y, target.z + 1);
+	T.SetTranslation(position.x, position.y, position.z);
+}
+
 Camera::Camera()
 {
 	Reset();
@@ -24,8 +37,23 @@ Matrix Camera::ViewTheWorld()
 	V.m[1][0] = x.y;              V.m[1][1] = y.y;              V.m[1][2] = z.y;              V.m[1][3] = 0.0f;
 	V.m[2][0] = x.z;              V.m[2][1] = y.z;              V.m[2][2] = z.z;              V.m[2][3] = 0.0f;
 	V.m[3][0] = -x.Dot(position); V.m[3][1] = -y.Dot(position); V.m[3][2] = -z.Dot(position); V.m[3][3] = 1.0f;
+	
+	//V.SetIdentity();
+	//O.SetPerspective(1.0, 9.0/16.0, 0.1, 10);
+	//O.SetIdentity();
 
-	return V;
+	return V*O;
+}
+
+void Camera::SetOrtho(float l, float r, float b, float t, float n, float f)
+{
+	O.SetIdentity();
+	O.m[0][0] = 2 / (r - l);
+	O.m[0][3] = -(r + l) / (r - l);
+	O.m[1][1] = 2 / (t - b);
+	O.m[1][3] = -(t + b) / (t - b);
+	O.m[2][2] = -2 / (f - n);
+	O.m[2][3] = -(f + n) / (f - n);
 }
 
 void Camera::LookLeft(GLfloat angle)
@@ -88,6 +116,7 @@ void Camera::MoveLeft(GLfloat distance)
 	T.SetTranslation(position.x, position.y, position.z);
 }
 
+
 void Camera::Duck(bool set)
 {
 	if (set)
@@ -100,19 +129,6 @@ void Camera::Duck(bool set)
 		if (height < MID_CAM)
 			height += 0.06;
 	}
-}
-
-void Camera::Reset()
-{
-	position = Vector3(0, 0, 0);
-	target = Vector3(0, 0, -1);
-	up = Vector3(0, 1, 0);
-	direction = 0;
-	jumping = false;
-	freeMode = true;
-
-	R.SetTranslation(target.x, target.y, target.z + 1);
-	T.SetTranslation(position.x, position.y, position.z);
 }
 
 void Camera::Act(MyEnum what, bool setOrRelease)
@@ -141,28 +157,28 @@ void Camera::Update(GLfloat deltaTime)
 	}
 
 	if (direction & LOOK_UP)
-		LookUp(SPEED*deltaTime);
+		LookUp(speed*deltaTime);
 
 	if (direction & LOOK_DOWN)
-		LookUp(-SPEED*deltaTime);
+		LookUp(-speed*deltaTime);
 
 	if (direction & LOOK_LEFT)
-		LookLeft(SPEED*deltaTime * 3);
+		LookLeft(speed*deltaTime * 3);
 
 	if (direction & LOOK_RIGHT)
-		LookLeft(-SPEED*deltaTime * 3);
+		LookLeft(-speed*deltaTime * 3);
 
 	if (direction & MOVE_UP)
-		MoveUp(SPEED*deltaTime * 5 * rush);
+		MoveUp(speed*deltaTime * 5 * rush);
 
 	if (direction & MOVE_DOWN)
-		MoveUp(-SPEED*deltaTime * 5 * rush);
+		MoveUp(-speed*deltaTime * 5 * rush);
 
 	if (direction & MOVE_LEFT)
-		MoveLeft(SPEED*deltaTime * 5 * rush);
+		MoveLeft(speed*deltaTime * 5 * rush);
 
 	if (direction & MOVE_RIGHT)
-		MoveLeft(-SPEED*deltaTime * 5 * rush);
+		MoveLeft(-speed*deltaTime * 5 * rush);
 	
 	if (direction & JUMPING)
 	{

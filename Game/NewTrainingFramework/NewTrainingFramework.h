@@ -11,6 +11,7 @@
 #include "Object.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "TextManager.h"
 #include "Camera.h"
 #include <Windows.h>
 #include <mmsystem.h>

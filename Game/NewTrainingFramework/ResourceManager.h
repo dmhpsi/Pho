@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Vertex.h"
 #include "Shaders.h"
+#include <SFML\Audio.hpp>
 #include <vector>
 using namespace std;
 
@@ -16,7 +17,7 @@ public:
 	void Init(const char* rmFile);
 	static ResourceManager* GetInstance();
 	static void CleanInstance();
-	void* GetObjPart(MyEnum type, int ID);
+	void* GetResource(MyEnum type, int ID);
 
 	int numModels;
 	Model* listModels;
@@ -28,5 +29,12 @@ public:
 	Shaders* listShaders;
 
 	int numScenes;
-	vector<const char *> listScenes;
+	char** listScenes;
+	int* SceneIDs;
+
+	int numSounds;
+	sf::Music* listSounds;
+	int* SoundIDs;
+
+	int numFonts;
 };

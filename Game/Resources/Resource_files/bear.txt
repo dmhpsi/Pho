@@ -1,5 +1,5 @@
 #Scene Width: 40
-#Backgrounds: 1
+#Backgrounds: 0
 #Objects: 0
 
 ID 0

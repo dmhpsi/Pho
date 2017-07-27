@@ -1,0 +1,14 @@
+#Scene Width: 40
+#Backgrounds: 1
+#Objects: 0
+
+ID 0
+MODEL 0
+TEXTURES 1
+TEXTURE 7
+MSPF 50
+SHADER 0
+POSITION 0.0, 0.0, 0
+ROTATION 0
+SCALE 1
+SIZE 40, 40

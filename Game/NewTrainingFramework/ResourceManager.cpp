@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
+sf::Music *b;
 
 ResourceManager* ResourceManager::Instance = 0;
 
@@ -75,11 +76,11 @@ void ResourceManager::Init(const char* rmFile)
 
 	fscanf(Resource, "#Scenes: %d\n", &numScenes);
 	listScenes = new char*[numScenes];
-	SceneIDs = new int[numScenes];
+	sceneIDs = new int[numScenes];
 	for (int i = 0; i < numScenes; i++)
 	{
 		char tmp[500];
-		fscanf_s(Resource, "ID %d\n",&SceneIDs[i]);
+		fscanf_s(Resource, "ID %d\n",&sceneIDs[i]);
 		fscanf(Resource, "FILE \"%s\n", tmp);
 		tmp[strlen(tmp) - 1] = NULL;
 		listScenes[i] = new char[strlen(tmp) + 1];
@@ -88,19 +89,21 @@ void ResourceManager::Init(const char* rmFile)
 		listScenes[i][strlen(tmp)] = NULL;
 	}
 
-	// Load sound
+	// Load sound efx
 	fscanf(Resource, "#Sounds: %d\n", &numSounds);
-	listSounds = new sf::Music[numSounds];
-	SoundIDs = new int[numSounds];
+	listSoundBuffers = new sf::SoundBuffer[numSounds];
+	soundBufferIDs = new int[numSounds];
+	
 	for (int i = 0; i < numSounds; i++)
 	{
 		char tmp[500];
-		fscanf_s(Resource, "ID %d\n", &SceneIDs[i]);
+		fscanf_s(Resource, "ID %d\n", &soundBufferIDs[i]);
 		fscanf(Resource, "FILE \"%s\n", tmp);
 		tmp[strlen(tmp) - 1] = NULL;
-		if (!listSounds[i].openFromFile(tmp))
-			SoundIDs[i] = -1;
+		if (!listSoundBuffers[i].loadFromFile(tmp))
+			soundBufferIDs[i] = -1;
 	}
+	fclose(Resource);
 }
 
 void* ResourceManager::GetResource(MyEnum type, int ID)
@@ -133,12 +136,13 @@ void* ResourceManager::GetResource(MyEnum type, int ID)
 	{
 		for (int i = 0; i < numScenes; i++)
 		{
-			if (SceneIDs[i] == ID)
+			if (sceneIDs[i] == ID)
 				return listScenes[i];
 		}
 	}
 	return 0;
 }
+
 
 void ResourceManager::CleanInstance()
 {
@@ -151,15 +155,12 @@ ResourceManager::~ResourceManager()
 	delete[] listModels;
 	delete[] listShaders;
 	delete[] listTextures;
-	delete []SceneIDs;
+	delete []sceneIDs;
 	for (int i = 0; i < numScenes; i++)
 		delete listScenes[i];
 	delete[] listScenes;
-	for (int i = 0; i < numSounds; i++)
-		if (listSounds[i].getStatus() == sf::Music::Playing)
-			listSounds[i].stop();
 
 	// Cause memory corruption if deleted
-	//delete[] listSounds;
-	delete[] SoundIDs;
+	delete[] soundBufferIDs;
+	delete[] listSoundBuffers;
 }

@@ -1,6 +1,6 @@
 #Scene Width: 40
 #Backgrounds: 0
-#Objects: 0
+#Objects: 1
 
 ID 0
 MODEL 0

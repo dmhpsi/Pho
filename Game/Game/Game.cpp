@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "../NewTrainingFramework/NewTrainingFramework.h"
 
+extern sf::Music* b;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	ESContext esContext;
@@ -15,7 +16,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	if (Init(&esContext) != 0)
 		return 0;
 
-
 	esRegisterDrawFunc(&esContext, Draw);
 	esRegisterUpdateFunc(&esContext, Update);
 	esRegisterKeyFunc(&esContext, Key);
@@ -26,6 +26,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	CleanUp();
 
 	//identifying memory leaks
+	
 	MemoryDump();
 	printf("Press any key...\n");
 	_getch();

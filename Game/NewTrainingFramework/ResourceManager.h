@@ -29,12 +29,18 @@ public:
 	Shaders* listShaders;
 
 	int numScenes;
+	int* sceneIDs;
 	char** listScenes;
-	int* SceneIDs;
 
 	int numSounds;
-	sf::Music* listSounds;
-	int* SoundIDs;
+	int* soundBufferIDs;
+	sf::SoundBuffer* listSoundBuffers;
+	sf::Sound soundInstance;
+
+	int numMusics;
+	int* musicIDs;
+	char** listMusic;
+	sf::Music musicInstance;
 
 	int numFonts;
 };

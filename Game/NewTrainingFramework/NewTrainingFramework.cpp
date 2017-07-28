@@ -5,9 +5,7 @@
 #include "NewTrainingFramework.h"
 
 Matrix globalVP;
-TextManager *tm;
 int currentTick;
-Shaders fontShader;
 
 int Init(ESContext *esContext)
 {
@@ -20,11 +18,9 @@ int Init(ESContext *esContext)
 	SceneManager::GetInstance()->Init("../Resources/Resource_files/bear.txt");
 
 	// Create an instance of class TextManager to handle font
-	tm = new TextManager();
-	tm->Initialize();
-	instance->listSounds[0].play();
-
-	fontShader.Init("../Resources/Shaders/FontShaderVS.vs", "../Resources/Shaders/FontShaderFS.fs");
+	//instance->listSounds[0].play();
+	instance->soundInstance.setBuffer(instance->listSoundBuffers[1]);
+	
 	return 0;
 }
 
@@ -39,9 +35,7 @@ void Draw(ESContext *esContext)
 	SceneManager::GetInstance()->Draw(-1);
 
 	 //Draw text
-	glUseProgram(fontShader.program);
 	Vector4 color = Vector4(0, 0, 0, 1);
-	tm->RenderString("H", color, 0, 0, 10, 10);
 
 	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
 	currentTick = GetTickCount();
@@ -57,6 +51,7 @@ void Update(ESContext *esContext, float deltaTime)
 
 void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 {
+	//if (ResourceManager::GetInstance()->soundInstance.getStatus() == sf::Sound::Stopped)
 	//if (key == 0x41)
 	//{
 	//	Camera::GetInstance()->Act(LOOK_LEFT, bIsPressed);
@@ -82,6 +77,9 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	{
 		Camera::GetInstance()->Act(MOVE_DOWN, bIsPressed);
 	}
+	else
+		if (bIsPressed)
+			ResourceManager::GetInstance()->soundInstance.play();
 	//else if (key == VK_LEFT)
 	//{
 	//	Camera::GetInstance()->Act(MOVE_LEFT, bIsPressed);
@@ -114,9 +112,8 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 
 void CleanUp()
 {
-	ResourceManager::GetInstance()->CleanInstance();
 	SceneManager::GetInstance()->CleanInstance();
 	Camera::GetInstance()->CleanInstance();
-	delete tm;
+	ResourceManager::GetInstance()->CleanInstance();	
 }
 

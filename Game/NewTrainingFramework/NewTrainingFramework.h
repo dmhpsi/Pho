@@ -15,6 +15,7 @@
 #include "Camera.h"
 #include <Windows.h>
 #include <mmsystem.h>
+#include "Sound.h"
 
 
 int Init(ESContext *esContext);

@@ -57,6 +57,9 @@
     <ClCompile Include="TextManager.cpp">
       <Filter>Z Source</Filter>
     </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Z Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextManager.h">
+      <Filter>Z Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
       <Filter>Z Header</Filter>
     </ClInclude>
   </ItemGroup>

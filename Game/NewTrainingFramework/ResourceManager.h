@@ -5,8 +5,7 @@
 #include "Vertex.h"
 #include "Shaders.h"
 #include <SFML\Audio.hpp>
-#include <vector>
-using namespace std;
+#include "Sound.h"
 
 class ResourceManager
 {
@@ -33,14 +32,10 @@ public:
 	char** listScenes;
 
 	int numSounds;
-	int* soundBufferIDs;
-	sf::SoundBuffer* listSoundBuffers;
-	sf::Sound soundInstance;
+	Sound* listSounds;
 
 	int numMusics;
-	int* musicIDs;
-	char** listMusic;
-	sf::Music musicInstance;
+	Music* listMusics;
 
 	int numFonts;
 };

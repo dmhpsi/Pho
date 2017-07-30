@@ -4,8 +4,6 @@
 #include "Camera.h"
 #include <stdarg.h>
 
-extern int currentTick;
-
 class SceneManager
 {
 private:

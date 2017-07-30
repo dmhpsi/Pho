@@ -7,6 +7,7 @@
 #include "define.h"
 #include "Globals.h"
 
+extern Matrix globalVP;
 extern int currentTick;
 
 class Object

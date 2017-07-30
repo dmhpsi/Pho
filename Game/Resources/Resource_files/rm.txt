@@ -50,6 +50,10 @@ FILE "../Resources/Resource_files/bear.txt"
 
 #Sounds: 2
 ID 0
-FILE "../Resources/Sounds/grass2.wav"
-ID 0
 FILE "../Resources/Sounds/ding.wav"
+ID 1
+FILE "../Resources/Sounds/grass2.wav"
+
+#Musics: 1
+ID 0
+FILE "../Resources/Sounds/oah.ogg"

@@ -6,6 +6,7 @@
 
 Matrix globalVP;
 int currentTick;
+float globalVolume;
 
 int Init(ESContext *esContext)
 {
@@ -19,8 +20,8 @@ int Init(ESContext *esContext)
 
 	// Create an instance of class TextManager to handle font
 	//instance->listSounds[0].play();
-	instance->soundInstance.setBuffer(instance->listSoundBuffers[1]);
-	
+	globalVolume = 100;
+	instance->listMusics[0].Replay();
 	return 0;
 }
 
@@ -79,7 +80,7 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	}
 	else
 		if (bIsPressed)
-			ResourceManager::GetInstance()->soundInstance.play();
+			ResourceManager::GetInstance()->listSounds[0].Replay();
 	//else if (key == VK_LEFT)
 	//{
 	//	Camera::GetInstance()->Act(MOVE_LEFT, bIsPressed);
@@ -114,6 +115,6 @@ void CleanUp()
 {
 	SceneManager::GetInstance()->CleanInstance();
 	Camera::GetInstance()->CleanInstance();
-	ResourceManager::GetInstance()->CleanInstance();	
+	ResourceManager::GetInstance()->CleanInstance();
 }
 

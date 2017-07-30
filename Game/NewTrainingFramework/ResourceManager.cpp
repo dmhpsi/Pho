@@ -89,19 +89,30 @@ void ResourceManager::Init(const char* rmFile)
 		listScenes[i][strlen(tmp)] = NULL;
 	}
 
-	// Load sound efx
+	// Load sound fx
 	fscanf(Resource, "#Sounds: %d\n", &numSounds);
-	listSoundBuffers = new sf::SoundBuffer[numSounds];
-	soundBufferIDs = new int[numSounds];
-	
+	listSounds = new Sound[numSounds];
+
 	for (int i = 0; i < numSounds; i++)
 	{
 		char tmp[500];
-		fscanf_s(Resource, "ID %d\n", &soundBufferIDs[i]);
+		fscanf_s(Resource, "ID %d\n", &listSounds[i].ID);
 		fscanf(Resource, "FILE \"%s\n", tmp);
 		tmp[strlen(tmp) - 1] = NULL;
-		if (!listSoundBuffers[i].loadFromFile(tmp))
-			soundBufferIDs[i] = -1;
+		listSounds[i].Init(tmp);
+	}
+
+	//Load musics
+	fscanf(Resource, "#Musics: %d\n", &numMusics);
+	listMusics = new Music[numMusics];
+
+	for (int i = 0; i < numMusics; i++)
+	{
+		char tmp[500];
+		fscanf_s(Resource, "ID %d\n", &listMusics[i].ID);
+		fscanf(Resource, "FILE \"%s\n", tmp);
+		tmp[strlen(tmp) - 1] = NULL;
+		listMusics[i].Init(tmp);
 	}
 	fclose(Resource);
 }
@@ -161,6 +172,6 @@ ResourceManager::~ResourceManager()
 	delete[] listScenes;
 
 	// Cause memory corruption if deleted
-	delete[] soundBufferIDs;
-	delete[] listSoundBuffers;
+	delete[] listSounds;
+	delete[] listMusics;
 }

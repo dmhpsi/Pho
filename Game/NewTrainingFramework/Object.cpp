@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Object.h"
 
-extern Matrix globalVP;
-
 void Object::Draw()
 {
 	glUseProgram(shader->program);

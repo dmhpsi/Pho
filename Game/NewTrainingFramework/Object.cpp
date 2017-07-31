@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "Object.h"
 
+<<<<<<< HEAD
+=======
+extern Matrix globalVP;
+
+>>>>>>> dmhpsi/huynx
 void Object::Draw()
 {
 	glUseProgram(shader->program);

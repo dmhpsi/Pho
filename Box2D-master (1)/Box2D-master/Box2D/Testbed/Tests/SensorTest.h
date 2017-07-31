@@ -26,7 +26,11 @@ public:
 
 	enum
 	{
+<<<<<<< HEAD
 		e_count = 1
+=======
+		e_count = 7
+>>>>>>> dmhpsi/huynx
 	};
 
 	SensorTest()
@@ -37,7 +41,10 @@ public:
 
 			{
 				b2EdgeShape shape;
+<<<<<<< HEAD
 
+=======
+>>>>>>> dmhpsi/huynx
 				shape.Set(b2Vec2(-40.0f, 0.0f), b2Vec2(40.0f, 0.0f));
 				ground->CreateFixture(&shape, 0.0f);
 			}
@@ -54,10 +61,16 @@ public:
 				b2CircleShape shape;
 				shape.m_radius = 5.0f;
 				shape.m_p.Set(0.0f, 10.0f);
+<<<<<<< HEAD
 				
 				b2FixtureDef fd;
 				fd.shape = &shape;
 
+=======
+
+				b2FixtureDef fd;
+				fd.shape = &shape;
+>>>>>>> dmhpsi/huynx
 				fd.isSensor = true;
 				m_sensor = ground->CreateFixture(&fd);
 			}
@@ -166,7 +179,10 @@ public:
 
 			d.Normalize();
 			b2Vec2 F = 100.0f * d;
+<<<<<<< HEAD
 			
+=======
+>>>>>>> dmhpsi/huynx
 			body->ApplyForce(F, position, false);
 		}
 	}

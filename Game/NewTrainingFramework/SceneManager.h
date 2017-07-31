@@ -1,9 +1,16 @@
 #pragma once
 
 #include "Object.h"
+<<<<<<< HEAD
 #include "Camera.h"
 #include <stdarg.h>
 
+=======
+#include <stdarg.h>
+
+extern int currentTick;
+
+>>>>>>> dmhpsi/huynx
 class SceneManager
 {
 private:

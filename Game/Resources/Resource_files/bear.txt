@@ -1,6 +1,11 @@
 #Scene Width: 40
+<<<<<<< HEAD
 #Backgrounds: 0
 #Objects: 1
+=======
+#Backgrounds: 1
+#Objects: 0
+>>>>>>> dmhpsi/huynx
 
 ID 0
 MODEL 0

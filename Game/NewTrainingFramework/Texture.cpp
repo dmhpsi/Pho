@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Texture.h"
+<<<<<<< HEAD
 #include "TextManager.h"
 
 void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
@@ -8,6 +9,15 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 	if (type == NORMAL_OBJ)
 	{
 		img = LoadTGA(FileName, &width, &height, &bpp);
+=======
+
+void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
+{
+	img = LoadTGA(FileName, &width, &height, &bpp);
+
+	if (type == NORMAL_OBJ)
+	{
+>>>>>>> dmhpsi/huynx
 		int totalPixelsPerFrag = width * (height / numOfFragments) * bpp / 8;
 		texId = new GLuint[numOfFragments];
 		for (int i = 0; i < numOfFragments; i++)
@@ -35,6 +45,7 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 	}
+<<<<<<< HEAD
 	// if teture is font type
 	else if (type == OBJ_FONT)
 	{
@@ -43,6 +54,8 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 		TextManager::GetInstance()->fontShader = new Shaders();
 		TextManager::GetInstance()->fontShader->Init("../Resources/Shaders/FontShaderVS.vs", "../Resources/Shaders/FontShaderFS.fs");
 	}
+=======
+>>>>>>> dmhpsi/huynx
 	if (img)
 		delete img;
 }

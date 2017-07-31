@@ -7,7 +7,10 @@
 #include "define.h"
 #include "Globals.h"
 
+<<<<<<< HEAD
 extern Matrix globalVP;
+=======
+>>>>>>> dmhpsi/huynx
 extern int currentTick;
 
 class Object

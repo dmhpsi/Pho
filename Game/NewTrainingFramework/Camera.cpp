@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+<<<<<<< HEAD
 void Camera::Reset()
 {
 	position = Vector3(0, 0, 0);
@@ -14,6 +15,8 @@ void Camera::Reset()
 	T.SetTranslation(position.x, position.y, position.z);
 }
 
+=======
+>>>>>>> dmhpsi/huynx
 Camera::Camera()
 {
 	Reset();
@@ -37,6 +40,7 @@ Matrix Camera::ViewTheWorld()
 	V.m[1][0] = x.y;              V.m[1][1] = y.y;              V.m[1][2] = z.y;              V.m[1][3] = 0.0f;
 	V.m[2][0] = x.z;              V.m[2][1] = y.z;              V.m[2][2] = z.z;              V.m[2][3] = 0.0f;
 	V.m[3][0] = -x.Dot(position); V.m[3][1] = -y.Dot(position); V.m[3][2] = -z.Dot(position); V.m[3][3] = 1.0f;
+<<<<<<< HEAD
 	
 	//V.SetIdentity();
 	//O.SetPerspective(1.0, 9.0/16.0, 0.1, 10);
@@ -54,6 +58,10 @@ void Camera::SetOrtho(float l, float r, float b, float t, float n, float f)
 	O.m[1][3] = -(t + b) / (t - b);
 	O.m[2][2] = -2 / (f - n);
 	O.m[2][3] = -(f + n) / (f - n);
+=======
+
+	return V;
+>>>>>>> dmhpsi/huynx
 }
 
 void Camera::LookLeft(GLfloat angle)
@@ -116,7 +124,10 @@ void Camera::MoveLeft(GLfloat distance)
 	T.SetTranslation(position.x, position.y, position.z);
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dmhpsi/huynx
 void Camera::Duck(bool set)
 {
 	if (set)
@@ -131,6 +142,22 @@ void Camera::Duck(bool set)
 	}
 }
 
+<<<<<<< HEAD
+=======
+void Camera::Reset()
+{
+	position = Vector3(0, 0, 0);
+	target = Vector3(0, 0, -1);
+	up = Vector3(0, 1, 0);
+	direction = 0;
+	jumping = false;
+	freeMode = true;
+
+	R.SetTranslation(target.x, target.y, target.z + 1);
+	T.SetTranslation(position.x, position.y, position.z);
+}
+
+>>>>>>> dmhpsi/huynx
 void Camera::Act(MyEnum what, bool setOrRelease)
 {
 	if (setOrRelease)
@@ -157,6 +184,7 @@ void Camera::Update(GLfloat deltaTime)
 	}
 
 	if (direction & LOOK_UP)
+<<<<<<< HEAD
 		LookUp(speed*deltaTime);
 
 	if (direction & LOOK_DOWN)
@@ -179,6 +207,30 @@ void Camera::Update(GLfloat deltaTime)
 
 	if (direction & MOVE_RIGHT)
 		MoveLeft(-speed*deltaTime * 5 * rush);
+=======
+		LookUp(SPEED*deltaTime);
+
+	if (direction & LOOK_DOWN)
+		LookUp(-SPEED*deltaTime);
+
+	if (direction & LOOK_LEFT)
+		LookLeft(SPEED*deltaTime * 3);
+
+	if (direction & LOOK_RIGHT)
+		LookLeft(-SPEED*deltaTime * 3);
+
+	if (direction & MOVE_UP)
+		MoveUp(SPEED*deltaTime * 5 * rush);
+
+	if (direction & MOVE_DOWN)
+		MoveUp(-SPEED*deltaTime * 5 * rush);
+
+	if (direction & MOVE_LEFT)
+		MoveLeft(SPEED*deltaTime * 5 * rush);
+
+	if (direction & MOVE_RIGHT)
+		MoveLeft(-SPEED*deltaTime * 5 * rush);
+>>>>>>> dmhpsi/huynx
 	
 	if (direction & JUMPING)
 	{

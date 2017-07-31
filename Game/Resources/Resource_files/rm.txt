@@ -3,7 +3,10 @@ ID 0
 FILE "../Resources/Models/sprite.nfg"
 
 #2D Textures: 8
+<<<<<<< HEAD
 #FONTS: 1
+=======
+>>>>>>> dmhpsi/huynx
 ID 0
 FILE "../Resources/Textures/aquaani.tga"
 FRAGS 4
@@ -36,8 +39,11 @@ ID 7
 FILE "../Resources/Textures/bear.tga"
 FRAGS 10
 TILING CLAMP
+<<<<<<< HEAD
 ID 8
 FILE "../Resources/Fonts/Pixel_LCD_7.ttf"
+=======
+>>>>>>> dmhpsi/huynx
 
 #Shaders: 1
 ID 0
@@ -48,6 +54,7 @@ FS "../Resources/Shaders/TriangleShaderFS.fs"
 ID 0
 FILE "../Resources/Resource_files/level1.txt"
 ID 1
+<<<<<<< HEAD
 FILE "../Resources/Resource_files/bear.txt"
 
 #Sounds: 2
@@ -59,3 +66,6 @@ FILE "../Resources/Sounds/grass2.wav"
 #Musics: 1
 ID 0
 FILE "../Resources/Sounds/oah.ogg"
+=======
+FILE "../Resources/Resource_files/bear.txt"
+>>>>>>> dmhpsi/huynx

@@ -54,12 +54,15 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Z Source</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="TextManager.cpp">
       <Filter>Z Source</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Z Source</Filter>
     </ClCompile>
+=======
+>>>>>>> dmhpsi/huynx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -101,12 +104,15 @@
     <ClInclude Include="NewTrainingFramework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="TextManager.h">
       <Filter>Z Header</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">
       <Filter>Z Header</Filter>
     </ClInclude>
+=======
+>>>>>>> dmhpsi/huynx
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\TriangleShaderFS.fs">
@@ -128,12 +134,15 @@
     <None Include="..\Resources\Shaders\Terrain.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
+<<<<<<< HEAD
     <None Include="..\Resources\Shaders\FontShaderFS.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\FontShaderVS.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
+=======
+>>>>>>> dmhpsi/huynx
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Resources\Resource_files\level1.txt">

@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+=======
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+>>>>>>> dmhpsi/huynx
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,18 +18,29 @@
     <ProjectGuid>{FC024EC8-32F4-4657-A2CB-14D2B3A931F8}</ProjectGuid>
     <RootNamespace>NewTrainingFramework</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+<<<<<<< HEAD
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+=======
+>>>>>>> dmhpsi/huynx
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
+<<<<<<< HEAD
     <PlatformToolset>v140</PlatformToolset>
+=======
+    <PlatformToolset>v120</PlatformToolset>
+>>>>>>> dmhpsi/huynx
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
+<<<<<<< HEAD
     <PlatformToolset>v140</PlatformToolset>
+=======
+    <PlatformToolset>v120</PlatformToolset>
+>>>>>>> dmhpsi/huynx
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -45,7 +60,10 @@
     <OutDir>$(SolutionDir)\Lib\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+<<<<<<< HEAD
     <IncludePath>D:\Project Pho\Game\Include;$(IncludePath)</IncludePath>
+=======
+>>>>>>> dmhpsi/huynx
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
@@ -56,7 +74,11 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+<<<<<<< HEAD
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+=======
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+>>>>>>> dmhpsi/huynx
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -65,16 +87,23 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
+<<<<<<< HEAD
       <AdditionalDependencies>libEGL.lib;libGLESv2.lib;%(AdditionalDependencies);sfml-window-d.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-audio-d.lib;</AdditionalDependencies>
+=======
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+>>>>>>> dmhpsi/huynx
       <AdditionalLibraryDirectories>$(SolutionDir)\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+<<<<<<< HEAD
     <Lib>
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+=======
+>>>>>>> dmhpsi/huynx
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -103,12 +132,18 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shaders.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Sound.cpp" />
+=======
+>>>>>>> dmhpsi/huynx
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="TextManager.cpp" />
+=======
+>>>>>>> dmhpsi/huynx
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -121,16 +156,24 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shaders.h" />
+<<<<<<< HEAD
     <ClInclude Include="Sound.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextManager.h" />
+=======
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+>>>>>>> dmhpsi/huynx
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <None Include="..\Resources\Shaders\FontShaderFS.fs" />
     <None Include="..\Resources\Shaders\FontShaderVS.vs" />
+=======
+>>>>>>> dmhpsi/huynx
     <None Include="..\Resources\Shaders\Skybox.fs" />
     <None Include="..\Resources\Shaders\Skybox.vs" />
     <None Include="..\Resources\Shaders\Terrain.fs" />

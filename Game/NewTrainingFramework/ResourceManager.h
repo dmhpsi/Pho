@@ -4,8 +4,13 @@
 #include "Texture.h"
 #include "Vertex.h"
 #include "Shaders.h"
+<<<<<<< HEAD
 #include <SFML\Audio.hpp>
 #include "Sound.h"
+=======
+#include <vector>
+using namespace std;
+>>>>>>> dmhpsi/huynx
 
 class ResourceManager
 {
@@ -28,6 +33,7 @@ public:
 	Shaders* listShaders;
 
 	int numScenes;
+<<<<<<< HEAD
 	int* sceneIDs;
 	char** listScenes;
 
@@ -38,4 +44,8 @@ public:
 	Music* listMusics;
 
 	int numFonts;
+=======
+	char** listScenes;
+	int * ids;
+>>>>>>> dmhpsi/huynx
 };

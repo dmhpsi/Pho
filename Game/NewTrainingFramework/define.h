@@ -13,7 +13,10 @@ typedef unsigned int MyEnum;
 #define OBJ_SKY_TEXTURE 12
 #define OBJ_SHADER 13
 #define SCENE 14
+<<<<<<< HEAD
 #define OBJ_TEXT 15
+=======
+>>>>>>> dmhpsi/huynx
 
 // Camera enum
 #define MOVE_UP 1
@@ -32,6 +35,10 @@ typedef unsigned int MyEnum;
 #define FREE_MODE 4096
 #define RESET 8192
 
+<<<<<<< HEAD
+=======
+#define SPEED 1.0f
+>>>>>>> dmhpsi/huynx
 #define MAX_COS 0.8
 
 #define MID_CAM 1.8

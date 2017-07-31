@@ -5,6 +5,7 @@
 #include "NewTrainingFramework.h"
 
 Matrix globalVP;
+<<<<<<< HEAD
 int currentTick;
 float globalVolume;
 
@@ -24,6 +25,23 @@ int Init(ESContext *esContext)
 }
 
 void Draw(ESContext *esContext)
+=======
+
+int currentTick;
+
+int Init ( ESContext *esContext )
+{
+	glClearColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+	glEnable(GL_DEPTH_TEST); 
+	ResourceManager* instance = ResourceManager::GetInstance();
+	instance->Init("../Resources/Resource_files/rm.txt");
+	SceneManager::GetInstance()->Init((char*)instance->GetResource(SCENE, 1));
+
+	return 0;
+}
+
+void Draw ( ESContext *esContext )
+>>>>>>> dmhpsi/huynx
 {
 	glEnable(GL_BLEND);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -33,6 +51,7 @@ void Draw(ESContext *esContext)
 
 	SceneManager::GetInstance()->Draw(-1);
 
+<<<<<<< HEAD
 	 //Draw text
 	Vector4 color = Vector4(194, 24, 91);
 	char *fileName = "THREE WOLVES";
@@ -47,6 +66,13 @@ void Draw(ESContext *esContext)
 }
 
 void Update(ESContext *esContext, float deltaTime)
+=======
+	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+	currentTick = GetTickCount();
+}
+
+void Update ( ESContext *esContext, float deltaTime )
+>>>>>>> dmhpsi/huynx
 {
 	if (deltaTime > 0)
 	{
@@ -54,6 +80,7 @@ void Update(ESContext *esContext, float deltaTime)
 	}
 }
 
+<<<<<<< HEAD
 
 
 void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
@@ -76,6 +103,27 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	//	Camera::GetInstance()->Act(LOOK_DOWN, bIsPressed);
 	//}
 	//else 
+=======
+void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
+{
+	if (key == 0x41)
+	{
+		Camera::GetInstance()->Act(LOOK_LEFT, bIsPressed);
+	}
+	else if (key == 0x44)
+	{
+		Camera::GetInstance()->Act(LOOK_RIGHT, bIsPressed);
+	}
+	else if (key == 0x57)
+	{
+		Camera::GetInstance()->Act(LOOK_UP, bIsPressed);
+	}
+	else if (key == 0x53)
+	{
+		Camera::GetInstance()->Act(LOOK_DOWN, bIsPressed);
+	}
+	else 
+>>>>>>> dmhpsi/huynx
 	if (key == VK_UP)
 	{
 		Camera::GetInstance()->Act(MOVE_UP, bIsPressed);
@@ -84,6 +132,7 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	{
 		Camera::GetInstance()->Act(MOVE_DOWN, bIsPressed);
 	}
+<<<<<<< HEAD
 	else
 		if (bIsPressed)
 			ResourceManager::GetInstance()->listSounds[0].Replay();
@@ -95,6 +144,16 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	//{
 	//	Camera::GetInstance()->Act(MOVE_RIGHT, bIsPressed);
 	//}
+=======
+	else if (key == VK_LEFT)
+	{
+		Camera::GetInstance()->Act(MOVE_LEFT, bIsPressed);
+	}
+	else if (key == VK_RIGHT)
+	{
+		Camera::GetInstance()->Act(MOVE_RIGHT, bIsPressed);
+	}
+>>>>>>> dmhpsi/huynx
 	//else if (key == VK_CONTROL)
 	//{
 	//	Camera::GetInstance()->Act(DUCKING, bIsPressed);
@@ -119,6 +178,7 @@ void Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 
 void CleanUp()
 {
+<<<<<<< HEAD
 	SceneManager::GetInstance()->CleanInstance();
 	Camera::GetInstance()->CleanInstance();
 	ResourceManager::GetInstance()->CleanInstance();
@@ -135,5 +195,10 @@ void OnMouseDown(ESContext * esContext, float x, float y)
 
 void OnMouseMove(ESContext * esContext, float x, float y)
 {
+=======
+	ResourceManager::GetInstance()->CleanInstance();
+	SceneManager::GetInstance()->CleanInstance();
+	Camera::GetInstance()->CleanInstance();
+>>>>>>> dmhpsi/huynx
 }
 

@@ -20,10 +20,13 @@ void SceneManager::Init(const char *smFile)
 	fopen_s(&Resource, smFile, "r");
 	fscanf_s(Resource, "#Scene Width: %f\n", &sceneWidth);
 	sceneHeight = sceneWidth*Globals::screenHeight / Globals::screenWidth;
+<<<<<<< HEAD
 
 	Camera::GetInstance()->SetOrtho(-sceneWidth / 2, sceneWidth / 2, -sceneHeight / 2, sceneHeight / 2, -1, 1);
 	Camera::GetInstance()->speed = sceneHeight / 2;
 
+=======
+>>>>>>> dmhpsi/huynx
 	fscanf_s(Resource, "#Backgrounds: %d\n", &numBg);
 	fscanf_s(Resource, "#Objects: %d\n", &numObject);
 	listObject = new Object[numObject + numBg];
@@ -47,16 +50,28 @@ void SceneManager::Init(const char *smFile)
 		Matrix s, t, r;
 		float x, y, z;
 		fscanf_s(Resource, "POSITION %f, %f, %f\n", &x, &y, &z);
+<<<<<<< HEAD
 		t.SetTranslation(x, y, z);
+=======
+		t.SetTranslation(x / sceneWidth, y / sceneHeight*2, z);
+>>>>>>> dmhpsi/huynx
 		fscanf_s(Resource, "ROTATION %f\n", &x);
 		x *= PI / 180;
 		r.SetRotationZ(x);
 
 		fscanf_s(Resource, "SCALE %f\n", &x);
 		fscanf_s(Resource, "SIZE %f, %f\n", &listObject[i].w, &listObject[i].h);
+<<<<<<< HEAD
 		x *= listObject[i].w / 2;
 		s.SetScale(x, x*listObject[i].h / listObject[i].w, 1);
 		listObject[i].W = s*r*t;
+=======
+		x *= listObject[i].w / sceneWidth;
+		s.SetScale(x,
+			x * listObject[i].h / listObject[i].w * sceneWidth / sceneHeight,
+			1);
+		listObject[i].W = r*s*t;
+>>>>>>> dmhpsi/huynx
 	}
 }
 

@@ -10,6 +10,8 @@ public:
 	char fileFS[260];
 	GLint positionAttribute;
 	GLint colorAttribute;
+	GLint fadeUniform;
+	void SetFade(GLfloat ratio);
 
 	int Init(char * fileVertexShader, char * fileFragmentShader);
 	~Shaders();

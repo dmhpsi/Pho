@@ -17,7 +17,6 @@ public:
 	int bpp;
 	GLuint *texId;
 	void LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode);
-	void Bind();
 	Texture();
 	~Texture();
 };

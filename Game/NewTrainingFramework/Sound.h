@@ -1,8 +1,7 @@
 #pragma once
 #include <SFML\Audio.hpp>
 #include <iostream>
-#include "Globals.h"
-
+ 
 extern float globalVolume;
 
 class Sound

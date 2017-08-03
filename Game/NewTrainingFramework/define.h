@@ -6,6 +6,9 @@ typedef unsigned int MyEnum;
 // Object type
 #define NORMAL_OBJ 0
 #define SKY_OBJ 1
+#define BG_OBJ 2
+#define MAN_OBJ 3
+#define PHO_OBJ 4
 
 // Object part
 #define OBJ_MODEL 10
@@ -14,6 +17,13 @@ typedef unsigned int MyEnum;
 #define OBJ_SHADER 13
 #define SCENE 14
 #define OBJ_TEXT 15
+
+// Function enum
+#define FUNC_KEYUP 22
+#define FUNC_KEYDOWN 23
+#define FUNC_MOUSEUP 24
+#define FUNC_MOUSEDOWN 25
+#define FUNC_MOUSEMOVE 26
 
 // Camera enum
 #define MOVE_UP 1

@@ -13,6 +13,19 @@ SceneManager* SceneManager::GetInstance()
 	return Instance;
 }
 
+void SceneManager::Fade(bool isFadeIn,int millis)
+{
+	if (isFadeIn)
+	{
+		fadeStartTick = currentTick;
+	}
+	else
+	{
+		fadeStartTick = currentTick + millis;
+	}
+	fadeMillis = millis;
+}
+
 void SceneManager::Init(const char *smFile)
 {
 	int tmp;
@@ -21,66 +34,109 @@ void SceneManager::Init(const char *smFile)
 	fscanf_s(Resource, "#Scene Width: %f\n", &sceneWidth);
 	sceneHeight = sceneWidth*Globals::screenHeight / Globals::screenWidth;
 
-	Camera::GetInstance()->SetOrtho(-sceneWidth / 2, sceneWidth / 2, -sceneHeight / 2, sceneHeight / 2, -1, 1);
+	Camera::GetInstance()->SetOrtho(-sceneWidth / 2, sceneWidth / 2, -sceneHeight / 2, sceneHeight / 2, -10, 10);
 	Camera::GetInstance()->speed = sceneHeight / 2;
 
-	fscanf_s(Resource, "#Backgrounds: %d\n", &numBg);
 	fscanf_s(Resource, "#Objects: %d\n", &numObject);
-	listObject = new Object[numObject + numBg];
-	for (int i = 0; i < numObject + numBg; i++)
+	listObject = new Object[numObject];
+	for (int i = 0; i < numObject; i++)
 	{
 		fscanf_s(Resource, "ID %d\n", &listObject[i].ID);
 		fscanf_s(Resource, "MODEL %d\n", &tmp);
 		listObject[i].model = (Model*)ResourceManager::GetInstance()->GetResource(OBJ_MODEL, tmp);
-		fscanf_s(Resource, "TEXTURES %d\n", &listObject[i].numTextures);
 
-		if (listObject[i].numTextures > 0)
-		{
-			fscanf_s(Resource, "TEXTURE %d\n", &tmp);
-			listObject[i].listTextures = (Texture*)ResourceManager::GetInstance()->GetResource(OBJ_TEXTURE, tmp);
-		}
+		fscanf_s(Resource, "TEXTURE %d\n", &tmp);
+		listObject[i].textures = (Texture*)ResourceManager::GetInstance()->GetResource(OBJ_TEXTURE, tmp);
+		
 		fscanf_s(Resource, "MSPF %d\n", &listObject[i].mspf);
 
 		fscanf_s(Resource, "SHADER %d\n", &tmp);
 		listObject[i].shader = (Shaders*)ResourceManager::GetInstance()->GetResource(OBJ_SHADER, tmp);
 
-		Matrix s, t, r;
-		float x, y, z;
-		fscanf_s(Resource, "POSITION %f, %f, %f\n", &x, &y, &z);
-		t.SetTranslation(x, y, z);
-		fscanf_s(Resource, "ROTATION %f\n", &x);
-		x *= PI / 180;
-		r.SetRotationZ(x);
+		char link[10];
+		float z;
+		fscanf(Resource, "TYPE %s\n", link);
+		if (strcmp(link, "BG_OBJ") == 0)
+		{
+			listObject[i].type = BG_OBJ;
+		}
+		else if (strcmp(link, "MAN_OBJ") == 0)
+		{
+			listObject[i].type = MAN_OBJ;
+		}
+		else if (strcmp(link, "PHO_OBJ") == 0)
+		{
+			listObject[i].type = PHO_OBJ;
+		}
+		else
+		{
+			listObject[i].type = 0;
+		}
 
-		fscanf_s(Resource, "SCALE %f\n", &x);
+		fscanf_s(Resource, "POSITION %f, %f\n", &listObject[i].x, &listObject[i].y);
+		listObject[i].T.SetTranslation(listObject[i].x, listObject[i].y, listObject[i].type);
+		fscanf_s(Resource, "ROTATION %f\n", &listObject[i].angle);
+		listObject[i].angle *= PI / 180;
+		listObject[i].R.SetRotationZ(listObject[i].angle);
+
 		fscanf_s(Resource, "SIZE %f, %f\n", &listObject[i].w, &listObject[i].h);
-		x *= listObject[i].w / 2;
-		s.SetScale(x, x*listObject[i].h / listObject[i].w, 1);
-		listObject[i].W = s*r*t;
+		listObject[i].S.SetScale(0.5*listObject[i].w, 0.5*listObject[i].h, 1);
 	}
+
+	fadeMillis = 0;
+	fadeStartTick = 0;
 }
 
-void SceneManager::Draw(int binaryPos)
+void SceneManager::Draw(int numDrawObjects, ...)
 {
-	int idx = 0;
-	if (binaryPos < 0)
+	if (fadeMillis > 0 && isFading)
 	{
-		for (int i = 0; i < numBg + numObject; i++)
+		float ratio = (float(currentTick - fadeStartTick) / fadeMillis);
+		if (ratio < 0 && ratio > -0.04)
+		{
+			isFading = false;
+			ratio = 0;
+		}
+		if (ratio > 1)
+		{
+			ratio = 1;
+			isFaded = true;
+		}
+		else
+		{
+			isFaded = false;
+		}
+
+		globalFadeRatio = abs(ratio);
+	}
+
+	if (numDrawObjects <= 0)
+	{
+		for (int i = 0; i < numObject; i++)
+		{
 			listObject[i].Draw();
+		}
 	}
 	else
 	{
-		while (binaryPos > 0)
+		va_list obj_list;
+		va_start(obj_list, numDrawObjects);
+		for (int i = 0; i < numDrawObjects; i++)
 		{
-			if (binaryPos & 1)
-				listObject[idx].Draw();
-			binaryPos >> 1;
-			idx++;
-			if (idx >= numBg + numObject)
-				break;
+			int tmp = va_arg(obj_list, int);
+			for (int j = 0; j < numObject; j++)
+			{
+				if (tmp == listObject[j].ID)
+				{
+					listObject[j].Draw();
+					break;
+				}
+			}
 		}
+		va_end(obj_list);
 	}
 }
+
 
 void SceneManager::CleanInstance()
 {
@@ -90,6 +146,6 @@ void SceneManager::CleanInstance()
 
 SceneManager::~SceneManager()
 {
-	delete []listObject;
+	delete[] listObject;
 }
 

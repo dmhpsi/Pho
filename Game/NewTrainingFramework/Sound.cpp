@@ -35,6 +35,7 @@ void Sound::Stop()
 void Music::Init(const char * path)
 {
 	instance.openFromFile(path);
+	instance.setLoop(true);
 }
 
 void Music::Replay()

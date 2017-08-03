@@ -145,5 +145,8 @@
     <Text Include="..\Resources\Resource_files\bear.txt">
       <Filter>Resources</Filter>
     </Text>
+    <Text Include="..\Resources\Resource_files\splash.txt">
+      <Filter>Resources</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 {
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
-/*
+
 	// Define the gravity vector.
 	b2Vec2 gravity(0.0f, -10.0f);
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 
 	// When the world destructor is called, all bodies and joints are freed. This can
 	// create orphaned pointers, so be careful about your world management.
-	*/
+	
 	Play play;
 	play.Playgame();
 	return 0;

@@ -154,7 +154,6 @@ void* ResourceManager::GetResource(MyEnum type, int ID)
 	return 0;
 }
 
-
 void ResourceManager::CleanInstance()
 {
 	delete Instance;
@@ -170,8 +169,6 @@ ResourceManager::~ResourceManager()
 	for (int i = 0; i < numScenes; i++)
 		delete listScenes[i];
 	delete[] listScenes;
-
-	// Cause memory corruption if deleted
 	delete[] listSounds;
 	delete[] listMusics;
 }

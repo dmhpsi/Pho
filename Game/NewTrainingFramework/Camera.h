@@ -24,6 +24,9 @@ public:
 	void MoveUp(GLfloat distance);
 	void MoveLeft(GLfloat distance);
 	void SetOrtho(float l, float r, float b, float t, float n, float f);
+
+	// Set height of camera base on current floor height
+	void SetHeight(float y);
 	void Duck(bool set);
 	void Reset();
 	Matrix ViewTheWorld();

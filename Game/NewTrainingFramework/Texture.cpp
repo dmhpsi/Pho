@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Texture.h"
+#include "TextManager.h"
 
 void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 {
@@ -37,7 +38,10 @@ void Texture::LoadToGPU(const char * FileName, MyEnum type, GLenum clampMode)
 	// if teture is font type
 	else if (type == OBJ_FONT)
 	{
-
+		texId = new GLuint;
+		TextManager::GetInstance()->Initialize(FileName);
+		TextManager::GetInstance()->fontShader = new Shaders();
+		TextManager::GetInstance()->fontShader->Init("../Resources/Shaders/FontShaderVS.vs", "../Resources/Shaders/FontShaderFS.fs");
 	}
 	if (img)
 		delete img;

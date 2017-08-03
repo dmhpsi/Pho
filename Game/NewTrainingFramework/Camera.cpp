@@ -56,6 +56,12 @@ void Camera::SetOrtho(float l, float r, float b, float t, float n, float f)
 	O.m[2][3] = -(f + n) / (f - n);
 }
 
+void Camera::SetHeight(float y)
+{
+	position.y = y;
+	target.y = y;
+}
+
 void Camera::LookLeft(GLfloat angle)
 {
 	Matrix Ry;

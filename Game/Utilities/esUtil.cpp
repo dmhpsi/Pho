@@ -9,81 +9,81 @@
 // CreateEGLContext()
 //Creates an EGL rendering context and all associated elements
 
-EGLBoolean CreateEGLContext ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay,
-                              EGLContext* eglContext, EGLSurface* eglSurface,
-                              EGLint attribList[])
+EGLBoolean CreateEGLContext(EGLNativeWindowType hWnd, EGLDisplay* eglDisplay,
+	EGLContext* eglContext, EGLSurface* eglSurface,
+	EGLint attribList[])
 {
-   EGLint numConfigs;
-   EGLint majorVersion;
-   EGLint minorVersion;
-   EGLDisplay display;
-   EGLContext context;
-   EGLSurface surface;
-   EGLConfig config;
-   EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE, EGL_NONE };
+	EGLint numConfigs;
+	EGLint majorVersion;
+	EGLint minorVersion;
+	EGLDisplay display;
+	EGLContext context;
+	EGLSurface surface;
+	EGLConfig config;
+	EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE, EGL_NONE };
 
-   // Get Display
-   display = eglGetDisplay(GetDC(hWnd));
-   if ( display == EGL_NO_DISPLAY )
-   {
-      return EGL_FALSE;
-   }
+	// Get Display
+	display = eglGetDisplay(GetDC(hWnd));
+	if (display == EGL_NO_DISPLAY)
+	{
+		return EGL_FALSE;
+	}
 
-   // Initialize EGL
-   if ( !eglInitialize(display, &majorVersion, &minorVersion) )
-   {
-      return EGL_FALSE;
-   }
+	// Initialize EGL
+	if (!eglInitialize(display, &majorVersion, &minorVersion))
+	{
+		return EGL_FALSE;
+	}
 
-   // Get configs
-   if ( !eglGetConfigs(display, NULL, 0, &numConfigs) )
-   {
-      return EGL_FALSE;
-   }
+	// Get configs
+	if (!eglGetConfigs(display, NULL, 0, &numConfigs))
+	{
+		return EGL_FALSE;
+	}
 
-   // Choose config
-   if ( !eglChooseConfig(display, attribList, &config, 1, &numConfigs) )
-   {
-      return EGL_FALSE;
-   }
+	// Choose config
+	if (!eglChooseConfig(display, attribList, &config, 1, &numConfigs))
+	{
+		return EGL_FALSE;
+	}
 
-   // Create a surface
-   surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)hWnd, NULL);
-   if ( surface == EGL_NO_SURFACE )
-   {
-      return EGL_FALSE;
-   }
+	// Create a surface
+	surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)hWnd, NULL);
+	if (surface == EGL_NO_SURFACE)
+	{
+		return EGL_FALSE;
+	}
 
-   // Create a GL context
-   context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs );
-   if ( context == EGL_NO_CONTEXT )
-   {
-      return EGL_FALSE;
-   }   
-   
-   // Make the context current
-   if ( !eglMakeCurrent(display, surface, surface, context) )
-   {
-      return EGL_FALSE;
-   }
-   
-   *eglDisplay = display;
-   *eglSurface = surface;
-   *eglContext = context;
-   return EGL_TRUE;
-} 
+	// Create a GL context
+	context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
+	if (context == EGL_NO_CONTEXT)
+	{
+		return EGL_FALSE;
+	}
+
+	// Make the context current
+	if (!eglMakeCurrent(display, surface, surface, context))
+	{
+		return EGL_FALSE;
+	}
+
+	*eglDisplay = display;
+	*eglSurface = surface;
+	*eglContext = context;
+	return EGL_TRUE;
+}
 
 //  esInitContext()
 //
 //      Initialize ES utility context.  This must be called before calling any other
 //      functions.
 
-void ESUTIL_API esInitContext ( ESContext *esContext )
+void ESUTIL_API esInitContext(ESContext *esContext)
 {
-   if ( esContext != NULL )
-   {
-      memset( esContext, 0, sizeof( ESContext) );
-   }
+	if (esContext != NULL)
+	{
+		memset(esContext, 0, sizeof(ESContext));
+	}
 }
 
 
@@ -98,43 +98,43 @@ void ESUTIL_API esInitContext ( ESContext *esContext )
 //          ES_WINDOW_STENCIL     - specifies that a stencil buffer should be created
 //          ES_WINDOW_MULTISAMPLE - specifies that a multi-sample buffer should be created
 
-GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char* title, GLint width, GLint height, GLuint flags )
+GLboolean ESUTIL_API esCreateWindow(ESContext *esContext, const char* title, GLint width, GLint height, GLuint flags)
 {
-   EGLint attribList[] =
-   {
-       EGL_RED_SIZE,       5,
-       EGL_GREEN_SIZE,     6,
-       EGL_BLUE_SIZE,      5,
-       EGL_ALPHA_SIZE,     (flags & ES_WINDOW_ALPHA) ? 8 : EGL_DONT_CARE,
-       EGL_DEPTH_SIZE,     (flags & ES_WINDOW_DEPTH) ? 8 : EGL_DONT_CARE,
-       EGL_STENCIL_SIZE,   (flags & ES_WINDOW_STENCIL) ? 8 : EGL_DONT_CARE,
-       EGL_SAMPLE_BUFFERS, (flags & ES_WINDOW_MULTISAMPLE) ? 1 : 0,
-       EGL_NONE
-   };
-   
-   if ( esContext == NULL )
-   {
-      return GL_FALSE;
-   }
+	EGLint attribList[] =
+	{
+		EGL_RED_SIZE,       5,
+		EGL_GREEN_SIZE,     6,
+		EGL_BLUE_SIZE,      5,
+		EGL_ALPHA_SIZE,     (flags & ES_WINDOW_ALPHA) ? 8 : EGL_DONT_CARE,
+		EGL_DEPTH_SIZE,     (flags & ES_WINDOW_DEPTH) ? 8 : EGL_DONT_CARE,
+		EGL_STENCIL_SIZE,   (flags & ES_WINDOW_STENCIL) ? 8 : EGL_DONT_CARE,
+		EGL_SAMPLE_BUFFERS, (flags & ES_WINDOW_MULTISAMPLE) ? 1 : 0,
+		EGL_NONE
+	};
 
-   esContext->width = width;
-   esContext->height = height;
+	if (esContext == NULL)
+	{
+		return GL_FALSE;
+	}
 
-   if ( !WinCreate ( esContext, title) )
-   {
-      return GL_FALSE;
-   }
+	esContext->width = width;
+	esContext->height = height;
 
-   if ( !CreateEGLContext ( esContext->hWnd,
-                            &esContext->eglDisplay,
-                            &esContext->eglContext,
-                            &esContext->eglSurface,
-                            attribList) )
-   {
-      return GL_FALSE;
-   }
-   
-   return GL_TRUE;
+	if (!WinCreate(esContext, title))
+	{
+		return GL_FALSE;
+	}
+
+	if (!CreateEGLContext(esContext->hWnd,
+		&esContext->eglDisplay,
+		&esContext->eglContext,
+		&esContext->eglSurface,
+		attribList))
+	{
+		return GL_FALSE;
+	}
+
+	return GL_TRUE;
 }
 
 
@@ -142,34 +142,47 @@ GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char* title, G
 //
 //    Start the main loop for the OpenGL ES application
 
-void ESUTIL_API esMainLoop ( ESContext *esContext )
+void ESUTIL_API esMainLoop(ESContext *esContext)
 {
-   WinLoop ( esContext );
+	WinLoop(esContext);
 }
 
 
 
 //  esRegisterDrawFunc()
 
-void ESUTIL_API esRegisterDrawFunc ( ESContext *esContext, void (ESCALLBACK *drawFunc) (ESContext* ) )
+void ESUTIL_API esRegisterDrawFunc(ESContext *esContext, void (ESCALLBACK *drawFunc) (ESContext*))
 {
-   esContext->drawFunc = drawFunc;
+	esContext->drawFunc = drawFunc;
+}
+
+void ESUTIL_API esRegisterMouseDownFunc(ESContext *esContext, void (ESCALLBACK *onMouseDown) (ESContext*, float, float))
+{
+	esContext->onMouseDown = onMouseDown;
+}
+void ESUTIL_API esRegisterMouseMoveFunc(ESContext *esContext, void (ESCALLBACK *onMouseMove) (ESContext*, float, float))
+{
+	esContext->onMouseMove = onMouseMove;
+}
+void ESUTIL_API esRegisterMouseUpFunc(ESContext *esContext, void (ESCALLBACK *onMouseUp) (ESContext*, float, float))
+{
+	esContext->onMouseUp = onMouseUp;
 }
 
 //  esRegisterUpdateFunc()
 
-void ESUTIL_API esRegisterUpdateFunc ( ESContext *esContext, void (ESCALLBACK *updateFunc) ( ESContext*, float ) )
+void ESUTIL_API esRegisterUpdateFunc(ESContext *esContext, void (ESCALLBACK *updateFunc) (ESContext*, float))
 {
-   esContext->updateFunc = updateFunc;
+	esContext->updateFunc = updateFunc;
 }
 
 
 //  esRegisterKeyFunc()
 
-void ESUTIL_API esRegisterKeyFunc ( ESContext *esContext,
-                                    void (ESCALLBACK *keyFunc) (ESContext*, unsigned char, bool ) )
+void ESUTIL_API esRegisterKeyFunc(ESContext *esContext,
+	void (ESCALLBACK *keyFunc) (ESContext*, unsigned char, bool))
 {
-   esContext->keyFunc = keyFunc;
+	esContext->keyFunc = keyFunc;
 }
 
 
@@ -177,17 +190,17 @@ void ESUTIL_API esRegisterKeyFunc ( ESContext *esContext,
 // esLogMessage()
 //    Log an error message to the debug output for the platform
 
-void ESUTIL_API esLogMessage ( const char *formatStr, ... )
+void ESUTIL_API esLogMessage(const char *formatStr, ...)
 {
-    va_list params;
-    char buf[2048];
+	va_list params;
+	char buf[2048];
 
-    va_start ( params, formatStr );
-    vsprintf_s ( buf, sizeof(buf),  formatStr, params );
-    
-    printf ( "%s", buf );
+	va_start(params, formatStr);
+	vsprintf_s(buf, sizeof(buf), formatStr, params);
+
+	printf("%s", buf);
 	OutputDebugString(buf);
-    
-    va_end ( params );
+
+	va_end(params);
 }
 

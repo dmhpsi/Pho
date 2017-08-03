@@ -2,8 +2,12 @@
 ID 0
 FILE "../Resources/Models/sprite.nfg"
 
-#2D Textures: 8
-#FONTS: 0
+#2D Textures: 12
+#FONTS: 1
+ID 99
+FILE "../Resources/Textures/bigspender.tga"
+FRAGS 2
+TILING CLAMP
 ID 0
 FILE "../Resources/Textures/aquaani.tga"
 FRAGS 4
@@ -26,7 +30,7 @@ FRAGS 1
 TILING CLAMP
 ID 5
 FILE "../Resources/Textures/bikeshop.tga"
-FRAGS 1
+FRAGS 4
 TILING CLAMP
 ID 6
 FILE "../Resources/Textures/bank.tga"
@@ -36,17 +40,36 @@ ID 7
 FILE "../Resources/Textures/bear.tga"
 FRAGS 10
 TILING CLAMP
+ID 8
+FILE "../Resources/Textures/cleanbrush.tga"
+FRAGS 1
+TILING CLAMP
+ID 9
+FILE "../Resources/Textures/threewolves.tga"
+FRAGS 1
+TILING CLAMP
+ID 10
+FILE "../Resources/Textures/DeliveryMan.tga"
+FRAGS 2
+TILING CLAMP
+
+ID 11
+FILE "../Resources/Fonts/Pixel_LCD_7.ttf"
 
 #Shaders: 1
 ID 0
 VS "../Resources/Shaders/TriangleShaderVS.vs"
 FS "../Resources/Shaders/TriangleShaderFS.fs"
 
-#Scenes: 2
+#Scenes: 4
 ID 0
-FILE "../Resources/Resource_files/level1.txt"
+FILE "../Resources/Resource_files/wolves.txt"
 ID 1
+FILE "../Resources/Resource_files/level1.txt"
+ID 2
 FILE "../Resources/Resource_files/bear.txt"
+ID 3
+FILE "../Resources/Resource_files/splash.txt"
 
 #Sounds: 2
 ID 0

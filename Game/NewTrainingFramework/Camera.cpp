@@ -9,6 +9,9 @@ void Camera::Reset()
 	direction = 0;
 	jumping = false;
 	freeMode = true;
+	moveSpeed = 0;
+	targetHeight = 0;
+	acce = 0;
 
 	R.SetTranslation(target.x, target.y, target.z + 1);
 	T.SetTranslation(position.x, position.y, position.z);
@@ -25,9 +28,12 @@ Matrix Camera::ViewTheWorld()
 
 	T.SetTranslation(position.x, position.y, position.z);
 	R.SetTranslation(target.x, target.y, target.z + 1);
+	Vector3 pos, tar;
+	pos = Vector3(position.x, floor(position.y), position.z);
+	tar = Vector3(target.x, floor(target.y), target.z);
 	
 	Vector3 x, y, z;
-	z = position - target;
+	z = pos - tar;
 	z.Normalize();
 	x = up.Cross(z);
 	x.Normalize();
@@ -36,7 +42,7 @@ Matrix Camera::ViewTheWorld()
 	V.m[0][0] = x.x;              V.m[0][1] = y.x;              V.m[0][2] = z.x;              V.m[0][3] = 0.0f;
 	V.m[1][0] = x.y;              V.m[1][1] = y.y;              V.m[1][2] = z.y;              V.m[1][3] = 0.0f;
 	V.m[2][0] = x.z;              V.m[2][1] = y.z;              V.m[2][2] = z.z;              V.m[2][3] = 0.0f;
-	V.m[3][0] = -x.Dot(position); V.m[3][1] = -y.Dot(position); V.m[3][2] = -z.Dot(position); V.m[3][3] = 1.0f;
+	V.m[3][0] = -x.Dot(pos);      V.m[3][1] = -y.Dot(pos);      V.m[3][2] = -z.Dot(pos);      V.m[3][3] = 1.0f;
 	
 	//V.SetIdentity();
 	//O.SetPerspective(1.0, 9.0/16.0, 0.1, 10);
@@ -56,10 +62,27 @@ void Camera::SetOrtho(float l, float r, float b, float t, float n, float f)
 	O.m[2][3] = -(f + n) / (f - n);
 }
 
-void Camera::SetHeight(float y)
+Matrix Camera::GetAbsoluteViewMatrix()
 {
-	position.y = y;
-	target.y = y;
+	return O;
+}
+
+void Camera::SetHeight(float h, float ms)
+{
+	if (ms < 50)
+	{
+		position.y = h;
+		target.y = h;
+		acce = 0;
+		moveSpeed = 0;
+	}
+	else
+	{
+		ms /= 1000;
+		acce = 2 * (h - position.y) / (ms*ms);
+		moveSpeed = acce*ms;
+		targetHeight = h;
+	}
 }
 
 void Camera::LookLeft(GLfloat angle)
@@ -81,7 +104,7 @@ void Camera::LookUp(GLfloat angle)
 {
 	Vector3 look = (target - position).Normalize();
 	GLfloat cosx = up.Dot(look);
-			
+
 	if ((cosx > -MAX_COS && cosx < MAX_COS) || (cosx >= MAX_COS && angle < 0) || (cosx <= -MAX_COS && angle > 0))
 	{
 		Matrix Rx;
@@ -151,6 +174,18 @@ void Camera::Act(MyEnum what, bool setOrRelease)
 
 void Camera::Update(GLfloat deltaTime)
 {
+	float oldPos = position.y;
+	position.y += moveSpeed*deltaTime;
+	target.y += moveSpeed*deltaTime;
+	moveSpeed -= acce*deltaTime;
+	if ((position.y - targetHeight)*(oldPos - targetHeight) < 0)
+	{
+		position.y = targetHeight;
+		target.y = targetHeight;
+		moveSpeed = 0;
+		acce = 0;
+	}
+
 	float rush;
 	static bool falling, jumpKey, duckKey;
 	if (direction & RUSH)
@@ -185,7 +220,7 @@ void Camera::Update(GLfloat deltaTime)
 
 	if (direction & MOVE_RIGHT)
 		MoveLeft(-speed*deltaTime * 5 * rush);
-	
+
 	if (direction & JUMPING)
 	{
 		if (!jumpKey)
@@ -202,7 +237,7 @@ void Camera::Update(GLfloat deltaTime)
 	{
 		jumpKey = false;
 	}
-	
+
 	if (jumping)
 	{
 		if (!falling)
@@ -249,7 +284,7 @@ void Camera::Update(GLfloat deltaTime)
 		if (!freeMode)
 			height = MID_CAM;
 	}
-	
+
 	if (freeMode)
 	{
 		height = position.y;
@@ -257,10 +292,10 @@ void Camera::Update(GLfloat deltaTime)
 
 	if (direction & RESET)
 		Reset();
-	
+
 	target.y += height - position.y;
 	position.y = height;
-		
+
 	target = (target - position).Normalize() + position;
 
 	R.SetTranslation(target.x, target.y, target.z + 1);

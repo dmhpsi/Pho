@@ -48,7 +48,7 @@ void TextManager::RenderString(char* text, Vector4 color, float x, float y, floa
 	//GLint uniSampler = glGetUniformLocation(fontShader->program, "u_s_texture");
 	if (uniform != -1)
 	{
-		glUniform4f(uniform, color.x / 255, color.y / 255, color.z / 255, 1);
+		glUniform4f(uniform, color.x / 255, color.y / 255, color.z / 255, color.w);
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);

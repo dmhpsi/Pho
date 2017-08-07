@@ -15,6 +15,7 @@
 #include "Camera.h"
 #include <Windows.h>
 #include "Sound.h"
+#include "Graphics.h"
 
 
 int Init(ESContext *esContext);
@@ -26,23 +27,3 @@ void _OnMouseUp(ESContext *esContext, float x, float y);
 void _OnMouseDown(ESContext *esContext, float x, float y);
 void _OnMouseMove(ESContext *esContext, float x, float y);
 
-class Graphics
-{
-private:
-	static Graphics* Instance;
-	~Graphics();
-public:
-	Graphics();
-	static Graphics* GetInstance();
-	static void CleanInstance();
-	void(*DrawCallback)();
-	void(*UpdateCallback)(float);
-	void(*KeyCallback)(unsigned char, bool);
-	void(*MouseDownCallback)(float, float);
-	void(*MouseUpCallback)(float, float);
-	void(*MouseMoveCallback)(float, float);
-	void RegisterDrawCallback(void(*funcName)());
-	void RegisterUpdateCallback(void(*funcName)(float));
-	void RegisterKeyCallback(void(*funcName)(unsigned char, bool));
-	void RegisterMouseCallback(MyEnum funcType, void(*funcName)(float, float));
-};

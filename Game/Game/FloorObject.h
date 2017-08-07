@@ -1,6 +1,6 @@
 #pragma once
 #include "Box2D/Box2D.h"
-#include "define.h"
+#include "..\NewTrainingFramework\define.h"
 
 
 class FloorObject
@@ -57,26 +57,6 @@ public:
 			myFixtureDef2.filter.groupIndex = k_smallGroup;
 			myFixtureDef2.shape = &edgeShape;
 			m_piece1 = m_body->CreateFixture(&myFixtureDef2);
-		}
-		{
-			b2BodyDef bodyDef1;
-			bodyDef1.position = b2Vec2(0.0f, m_floorHeight*objLevel);
-			b2BodyDef bodyDef2;
-
-			bodyDef2.position = b2Vec2(0.0f, m_floorHeight*objLevel);
-
-			m_leftboundary = world->CreateBody(&bodyDef1);
-			m_rightboundary = world->CreateBody(&bodyDef2);
-			b2EdgeShape shape;
-			//update left and right boundary based on the current floor
-			shape.Set(b2Vec2(-m_floorWidth / 2, 0.0f),
-				b2Vec2(-m_floorWidth / 2, m_floorHeight));
-
-			m_leftboundary->CreateFixture(&shape, 0.0f);
-
-			shape.Set(b2Vec2(m_floorWidth / 2, 0.0f),
-				b2Vec2(m_floorWidth / 2, m_floorHeight));
-			m_rightboundary->CreateFixture(&shape, 0.0f);
 		}
 
 	}

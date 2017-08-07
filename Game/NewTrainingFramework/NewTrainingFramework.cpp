@@ -3,8 +3,9 @@
 
 #include "stdafx.h"
 #include "NewTrainingFramework.h"
+#include "..\Game\PhysicManager.h"
 
-Matrix globalVP;
+Matrix globalVP, absoluteView;
 int currentTick;
 float globalVolume, globalFadeRatio;
 bool isFading = false, isFaded = false;
@@ -39,27 +40,25 @@ void _Draw(ESContext *esContext)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	globalVP = Camera::GetInstance()->ViewTheWorld();
+	absoluteView = Camera::GetInstance()->GetAbsoluteViewMatrix();
 
 	Vector4 color = Vector4(194, 24, 91);
-	char *fileName = "THREE WOLVES";
+	//char *fileName = "THREE WOLVES";
 	//SceneManager::GetInstance()->Draw(-1);
 	//TextManager::GetInstance()->RenderString(fileName, color, -250, 400, 1.2, 1.2);
 
-	if (Graphics::GetInstance()->DrawCallback != NULL)
-	{
-		Graphics::GetInstance()->DrawCallback();
-	}
+	Graphics::GetInstance()->Draw();
 	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
 	currentTick = GetTickCount();
 
-	if (false && isFaded)
-	{
-		static int pos;
-		SceneManager::GetInstance()->CleanInstance();
-		SceneManager::GetInstance()->Init(ResourceManager::GetInstance()->listScenes[pos % ResourceManager::GetInstance()->numScenes]);
-		SceneManager::GetInstance()->Fade(false, 1000);
-		pos++;
-	}
+	//if (false && isFaded)
+	//{
+	//	static int pos;
+	//	SceneManager::GetInstance()->CleanInstance();
+	//	SceneManager::GetInstance()->Init(ResourceManager::GetInstance()->listScenes[pos % ResourceManager::GetInstance()->numScenes]);
+	//	SceneManager::GetInstance()->Fade(false, 1000);
+	//	pos++;
+	//}
 }
 
 void _Update(ESContext *esContext, float deltaTime)
@@ -68,10 +67,7 @@ void _Update(ESContext *esContext, float deltaTime)
 	{
 		Camera::GetInstance()->Update(deltaTime);
 	}
-	if (Graphics::GetInstance()->UpdateCallback != NULL)
-	{
-		Graphics::GetInstance()->UpdateCallback(deltaTime);
-	}
+	Graphics::GetInstance()->Update(deltaTime);
 }
 
 void _Key(ESContext *esContext, unsigned char key, bool bIsPressed)
@@ -134,10 +130,7 @@ void _Key(ESContext *esContext, unsigned char key, bool bIsPressed)
 	//	Camera::GetInstance()->Act(RESET, bIsPressed);
 	//}
 
-	if (Graphics::GetInstance()->KeyCallback != NULL)
-	{
-		Graphics::GetInstance()->KeyCallback(key, bIsPressed);
-	}
+	Graphics::GetInstance()->Key(key, bIsPressed);
 }
 
 void CleanUp()
@@ -150,80 +143,15 @@ void CleanUp()
 
 void _OnMouseUp(ESContext * esContext, float x, float y)
 {
+	Graphics::GetInstance()->MouseUp(x, y);
 }
 
 void _OnMouseDown(ESContext * esContext, float x, float y)
 {
-	if (!isFading)
-	{
-		isFading = true;
-		//SceneManager::GetInstance()->Fade(true, 1000);
-	}
+	Graphics::GetInstance()->MouseDown(x, y);
 }
 
 void _OnMouseMove(ESContext * esContext, float x, float y)
 {
-}
-
-
-Graphics* Graphics::Instance = 0;
-
-Graphics* Graphics::GetInstance()
-{
-	if (!Instance)
-	{
-		Instance = new Graphics();
-	}
-	return Instance;
-}
-
-void Graphics::CleanInstance()
-{
-	delete Instance;
-	Instance = NULL;
-}
-
-Graphics::Graphics()
-{
-	DrawCallback = NULL;
-	UpdateCallback = NULL;
-	KeyCallback = NULL;
-	MouseDownCallback = NULL;
-	MouseUpCallback = NULL;
-	MouseMoveCallback = NULL;
-}
-
-void Graphics::RegisterDrawCallback(void(*funcName)())
-{
-	DrawCallback = funcName;
-}
-
-void Graphics::RegisterUpdateCallback(void(*funcName)(float))
-{
-	UpdateCallback = funcName;
-}
-
-void Graphics::RegisterKeyCallback(void(*funcName)(unsigned char, bool))
-{
-		KeyCallback = funcName;
-}
-
-void Graphics::RegisterMouseCallback(MyEnum funcType, void(*funcName)(float, float))
-{
-	if (funcType == FUNC_MOUSEDOWN)
-	{
-		MouseDownCallback = funcName;
-	}
-	else if (funcType == FUNC_MOUSEUP)
-	{
-		MouseUpCallback = funcName;
-	}
-	else if (funcType == FUNC_MOUSEMOVE)
-	{
-		MouseMoveCallback = funcName;
-	}
-}
-
-Graphics::~Graphics()
-{
+	Graphics::GetInstance()->MouseMove(x, y);
 }

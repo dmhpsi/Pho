@@ -11,8 +11,14 @@ public:
 	std::vector<Object*> textToDraw;
 	StateMachine();
 	void Init();
+	void LoadingInit();
+	void MenuInit();
+	void GamePlayInit();
 	void DeleteState();
 	void Update(float deltaTime);
+	void LoadingUpdate(float deltaTime);
+	void MenuUpdate(float deltaTime);
+	void GamePlayUpdate(float deltaTime);
 	void Render();
 	~StateMachine();	
 	enum GameState {
@@ -24,4 +30,8 @@ public:
 	};
 	GameState currentState;
 	void ChangState(GameState state);
+	void OnMouseUp(float x, float y);
+	void OnMouseDown(float x, float y);
+	void OnMouseMove(float x, float y);
+
 };

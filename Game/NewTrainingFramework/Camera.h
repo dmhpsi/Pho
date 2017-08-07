@@ -1,6 +1,7 @@
 #pragma once
 #include "define.h"
 #include "../Utilities/utilities.h"
+#include <math.h>
 
 class Camera
 {
@@ -8,7 +9,7 @@ class Camera
 	Matrix T, R, W, O;
 	int direction;
 	static Camera* Instance;
-	float height;
+	float height, targetHeight, moveSpeed, acce;
 	~Camera();
 	bool jumping;
 	bool freeMode;
@@ -24,9 +25,10 @@ public:
 	void MoveUp(GLfloat distance);
 	void MoveLeft(GLfloat distance);
 	void SetOrtho(float l, float r, float b, float t, float n, float f);
+	Matrix GetAbsoluteViewMatrix();
 
 	// Set height of camera base on current floor height
-	void SetHeight(float y);
+	void SetHeight(float y, float ms);
 	void Duck(bool set);
 	void Reset();
 	Matrix ViewTheWorld();

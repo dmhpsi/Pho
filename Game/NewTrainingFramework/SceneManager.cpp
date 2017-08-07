@@ -44,9 +44,13 @@ void SceneManager::Init(const char *smFile)
 		fscanf_s(Resource, "ID %d\n", &listObject[i].ID);
 		fscanf_s(Resource, "MODEL %d\n", &tmp);
 		listObject[i].model = (Model*)ResourceManager::GetInstance()->GetResource(OBJ_MODEL, tmp);
-
-		fscanf_s(Resource, "TEXTURE %d\n", &tmp);
-		listObject[i].textures = (Texture*)ResourceManager::GetInstance()->GetResource(OBJ_TEXTURE, tmp);
+		fscanf_s(Resource, "TEXTURES %d\n", &listObject[i].numTextures);
+		listObject[i].textures = new Texture*[listObject[i].numTextures];
+		for (int j = 0; j < listObject[i].numTextures; j++)
+		{
+			fscanf_s(Resource, "TEXTURE %d\n", &tmp);
+			listObject[i].textures[j] = (Texture*)ResourceManager::GetInstance()->GetResource(OBJ_TEXTURE, tmp);
+		}
 		
 		fscanf_s(Resource, "MSPF %d\n", &listObject[i].mspf);
 
@@ -68,9 +72,9 @@ void SceneManager::Init(const char *smFile)
 		{
 			listObject[i].type = PHO_OBJ;
 		}
-		else
+		else if (strcmp(link, "SKY_OBJ") == 0)
 		{
-			listObject[i].type = 0;
+			listObject[i].type = SKY_OBJ;
 		}
 
 		fscanf_s(Resource, "POSITION %f, %f\n", &listObject[i].x, &listObject[i].y);

@@ -1,6 +1,6 @@
 #pragma once
 #include "Box2D/Box2D.h"
-#include "define.h"
+#include "..\NewTrainingFramework\define.h"
 class IngredientObject
 {
 public:

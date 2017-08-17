@@ -121,7 +121,6 @@
     <None Include="..\Resources\Shaders\TriangleShaderVS.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Readme.doc" />
     <None Include="..\Resources\Shaders\Skybox.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
@@ -152,6 +151,30 @@
       <Filter>Resources</Filter>
     </Text>
     <Text Include="..\Resources\Resource_files\splash.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\GS_GAMEPLAY.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\GS_LOADING.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\GS_MAINMENU.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\physics.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\level2.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\level4.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\level5.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="..\Resources\Resource_files\level6.txt">
       <Filter>Resources</Filter>
     </Text>
   </ItemGroup>

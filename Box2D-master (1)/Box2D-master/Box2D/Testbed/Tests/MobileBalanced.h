@@ -11,7 +11,7 @@ class MobileBalanced : public Test
 public:
 	b2WeldJointDef weldJointDef;
 
-	int m_inumOfFloor = 10;
+	int m_inumOfFloor = 7;
 	float m_floorWidth = 40.0f;
 	float m_floorHeight = 17.5f;
 	const int16 k_smallGroup = 1;
@@ -28,7 +28,7 @@ public:
 	MobileBalanced()
 	{
 		//Create object for each floor
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			FloorObject* obj = new FloorObject(m_world, i);
 			obj->m_body->SetUserData(this);
@@ -47,10 +47,11 @@ public:
 	}
 	void Keyboard(int key)
 	{
+		std::cout << "GLFW_KEY_A" << std::endl;
 		switch (key)
 		{
 		case GLFW_KEY_A:
-			std::cout << "GLFW_KEY_A" << std::endl;
+			//std::cout << "GLFW_KEY_A" << std::endl;
 			m_button = true;
 			break;
 		case GLFW_KEY_E:
@@ -86,13 +87,16 @@ public:
 		objSpeed = baseSpeed + (currentFloor / 1)*0.5;
 		void* bodyAUserData = b1->GetUserData();
 		void* bodyBUserData = b2->GetUserData();
+		int x = b1->GetType();
+		int y = b2->GetType();
 		//check whether body1 is floorObject and body2 is PhoIngredient, weldJoint is not created
-		if (bodyAUserData == bodyBUserData 
-			&& bodyType1 == 1 && bodyType2 == 2 
+		if (x == 1 && y == 2
+			&& bodyType1 == 1 && bodyType2 == 2
 			&& weldJointDef.userData == nullptr)
 		{
 			std::cout << "Cham" << std::endl;
-			b1->SetLinearVelocity(b2Vec2(objSpeed - (rand() % 2) * objSpeed *2, 0.0f));
+			int x = objSpeed - (rand() % 2) * objSpeed * 2;
+			b1->SetLinearVelocity(b2Vec2(x, 0.0f));
 			b2Vec2 worldCoordsAnchorPoint = b2->GetWorldPoint(b2Vec2(0.6f, 0));
 			weldJointDef.bodyA = b1;
 			weldJointDef.bodyB = b2;
@@ -112,14 +116,13 @@ public:
 
 	void Step(Settings* settings)
 	{
-
-
-		static b2WeldJoint* weldJoint = nullptr;
 		Test::Step(settings);
-		if (weldJointDef.bodyA != nullptr )
+		static b2WeldJoint* weldJoint = nullptr;
+		if (weldJointDef.bodyA != nullptr)
 		{
 			if (weldJointDef.userData == "canTao")
 			{
+				// Catch
 				weldJoint = (b2WeldJoint*)m_world->CreateJoint(&weldJointDef);
 				weldJointDef.userData = "daTao";
 				weldJointDef.bodyA = nullptr;
@@ -128,50 +131,47 @@ public:
 		}
 		else if (m_button && weldJoint != nullptr && objBody->m_body->GetLinearVelocity().y == 0)
 		{
+			// Throw
 			m_world->DestroyJoint(weldJoint);
 			weldJoint = nullptr;
 			float impulse = objBody->m_body->GetMass() * 0.2;
 			objBody->m_body->ApplyLinearImpulse(b2Vec2(-2.1*objBody->m_body->GetLinearVelocity().x, 105), objBody->m_body->GetWorldCenter(), true);
-			std::cout << "currentFloor: "<< currentFloor << std::endl;
-			
+			std::cout << "currentFloor: " << currentFloor << std::endl;
 			m_button = false;
 		}
 
 		else if (m_needMoveFloor && objBody->m_body->GetLinearVelocity().y == 0 && currentFloor > 0)
 		{
 
-			int floorToBeRemoved = currentFloor - 2;
+			int floorToBeRemoved = currentFloor - 3;
 			int floorToBeUpdated = currentFloor + 3;
-			if (currentFloor==1)
+			if (currentFloor >2 && currentFloor <= m_inumOfFloor - 3)
 			{
-				floorObj[(currentFloor - 1) % 5]->m_body->SetActive(false);
-
+				floorObj[floorToBeRemoved % 6]->m_platform->SetTransform(b2Vec2(0, m_floorHeight*(floorToBeUpdated)), 0);
+				floorObj[floorToBeRemoved % 6]->m_body->SetTransform(b2Vec2(RandomFloat(-m_floorWidth / 2 + 4, m_floorWidth / 2 - 4), m_floorHeight*(currentFloor + 3) + 0.5 + floorObj[0]->m_objLength), 0);
+				floorObj[floorToBeRemoved % 6]->m_iobjLevel = floorToBeUpdated;
+				floorObj[floorToBeRemoved % 6]->m_body->SetAwake(false);
+				floorObj[floorToBeRemoved % 6]->m_body->SetActive(true);
+				floorObj[(currentFloor - 1) % 6]->m_body->SetActive(false);
+				//floorObj[(floorToBeRemoved+1) % 6]->m_body->SetActive(false);
 			}
 			else
 			{
-				floorObj[floorToBeRemoved % 5]->m_platform->SetTransform(b2Vec2(0, m_floorHeight*(floorToBeUpdated)), 0);
-				floorObj[floorToBeRemoved % 5]->m_leftboundary->SetTransform(b2Vec2(0, m_floorHeight *(floorToBeUpdated)), 0);
-				floorObj[floorToBeRemoved % 5]->m_rightboundary->SetTransform(b2Vec2(0, m_floorHeight *(floorToBeUpdated)), 0);
-				floorObj[floorToBeRemoved % 5]->m_body->SetTransform(b2Vec2(RandomFloat(-m_floorWidth / 2 + 4, m_floorWidth / 2 - 4), m_floorHeight*(currentFloor + 3) +0.5+ floorObj[0]->m_objLength), 0);
-				floorObj[floorToBeRemoved % 5]->m_iobjLevel = floorToBeUpdated;
-				floorObj[floorToBeRemoved % 5]->m_body->SetAwake(false);
-				floorObj[floorToBeRemoved % 5]->m_body->SetActive(true);
-				floorObj[(currentFloor - 1)%5]->m_body->SetActive(false);
-			//floorObj[(floorToBeRemoved+1) % 6]->m_body->SetActive(false);
+				floorObj[(currentFloor - 1) % 6]->m_body->SetActive(false);
 			}
 			m_needMoveFloor = false;
 
 		}
 		if (objBody->m_body->GetLinearVelocity().y > 0)
 		{
-			b2Fixture* fixture = floorObj[(currentFloor + 1) % 5]->m_body->GetFixtureList();
+			b2Fixture* fixture = floorObj[(currentFloor + 1) % 6]->m_body->GetFixtureList();
 			b2Filter filter = fixture->GetFilterData();
 			filter.groupIndex = k_largeGroup;
 			fixture->SetFilterData(filter);
 		}
 		else if (objBody->m_body->GetLinearVelocity().y <= 0)
 		{
-			b2Fixture* fixture = floorObj[(currentFloor + 1) % 5]->m_body->GetFixtureList();
+			b2Fixture* fixture = floorObj[(currentFloor + 1) % 6]->m_body->GetFixtureList();
 			b2Filter filter = fixture->GetFilterData();
 			filter.groupIndex = k_smallGroup;
 			fixture->SetFilterData(filter);

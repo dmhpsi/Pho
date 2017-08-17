@@ -6,9 +6,9 @@
 
 #include "../NewTrainingFramework/NewTrainingFramework.h"
 #include "Box2D/Box2D.h"
-#include "../NewTrainingFramework/StateMachine.h"
+#include "StateMachine.h"
 
-bool isPlaying;
+bool isPlaying, waiting;
 
 void Key(unsigned char key, bool isPressed)
 {
@@ -24,7 +24,10 @@ void Key(unsigned char key, bool isPressed)
 //}
 void OnMouseDown(float x, float y)
 {
-	StateMachine::GetInstance()->OnMouseDown(x, y);
+	if (!StateMachine::GetInstance()->OnMouseDown(x, y) && !waiting)
+	{
+		PhysicManager::GetInstance()->MouseClick();
+	}
 }
 //void OnMouseMove(float x, float y)
 //{
@@ -32,6 +35,8 @@ void OnMouseDown(float x, float y)
 //}
 void Update(float delta)
 {
+	if (waiting)
+		return;
 	if (isPlaying)
 	{
 		PhysicManager::GetInstance()->Update(delta);
@@ -41,11 +46,11 @@ void Update(float delta)
 		std::cout << "Some thing went wrong: deltatime " << delta << endl;
 	}
 	StateMachine::GetInstance()->Update(delta);
-	if (StateMachine::GetInstance()->currentState == StateMachine::GS_MAINMENU)
+	if (StateMachine::GetInstance()->currentState == StateMachine::GS_GAMEPLAY)
 	{
 		if (!isPlaying)
 		{
-			PhysicManager::GetInstance()->Init();
+			//PhysicManager::GetInstance()->Init("../Resources/Resource_files/physics.txt");
 		}
 		isPlaying = true;
 	}
@@ -66,7 +71,7 @@ void GameInit()
 	Graphics::GetInstance()->RegisterUpdateCallback(Update);
 	Graphics::GetInstance()->RegisterDrawCallback(Draw);
 	StateMachine::GetInstance()->Init();
-	//	Graphics::GetInstance()->MouseDownCallback(FUNC_MOUSEDOWN,0.0f);
+	Graphics::GetInstance()->RegisterMouseCallback(FUNC_MOUSEDOWN,OnMouseDown);
 	isPlaying = false;
 }
 
@@ -79,7 +84,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	esInitContext(&esContext);
 
 	esCreateWindow(&esContext, "Pho", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
-
+	waiting = false;
 	Init(&esContext);
 
 	GameInit();
@@ -89,7 +94,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	//releasing OpenGL resources
 	CleanUp();
 	Graphics::GetInstance()->CleanInstance();
-	PhysicManager::GetInstance()->CleanInstance();
+	if (isPlaying)
+	{
+		PhysicManager::GetInstance()->CleanInstance();
+	}
 
 	//identifying memory leaks	
 	StateMachine::GetInstance()->DeleteState();

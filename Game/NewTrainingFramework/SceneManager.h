@@ -8,6 +8,12 @@
 extern bool isFading, isFaded;
 extern float globalFadeRatio;
 
+struct int2
+{
+	int x;
+	int y;
+};
+
 class SceneManager
 {
 private:
@@ -17,6 +23,12 @@ public:
 	int numObject, fadeStartTick, fadeMillis;
 	float sceneWidth, sceneHeight;
 	Object* listObject;
+
+	// IDs of UI texture; 
+	///I SAID DO NOT touch this, but you did. OK I'm fine
+	int winTextureId, loseTextureId, homeButtonId, resumeButtonId, replayButtonId, nextButtonId, maskId;
+	vector <int2> drawOrder;
+
 	void Init(const char *smFile);
 
 	// Draw objects by the listed ID

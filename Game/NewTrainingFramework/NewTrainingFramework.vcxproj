@@ -55,7 +55,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\NewTrainingFramework;$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -86,6 +86,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\NewTrainingFramework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -139,7 +140,6 @@
     <None Include="..\Resources\Shaders\Terrain.vs" />
     <None Include="..\Resources\Shaders\TriangleShaderFS.fs" />
     <None Include="..\Resources\Shaders\TriangleShaderVS.vs" />
-    <None Include="..\Readme.doc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Utilities.vcxproj">
@@ -149,7 +149,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Resources\Resource_files\bear.txt" />
+    <Text Include="..\Resources\Resource_files\GS_GAMEPLAY.txt" />
+    <Text Include="..\Resources\Resource_files\GS_LOADING.txt" />
+    <Text Include="..\Resources\Resource_files\GS_MAINMENU.txt" />
     <Text Include="..\Resources\Resource_files\level1.txt" />
+    <Text Include="..\Resources\Resource_files\level2.txt" />
+    <Text Include="..\Resources\Resource_files\level4.txt" />
+    <Text Include="..\Resources\Resource_files\level5.txt" />
+    <Text Include="..\Resources\Resource_files\level6.txt" />
+    <Text Include="..\Resources\Resource_files\physics.txt" />
     <Text Include="..\Resources\Resource_files\rm.txt" />
     <Text Include="..\Resources\Resource_files\splash.txt" />
   </ItemGroup>

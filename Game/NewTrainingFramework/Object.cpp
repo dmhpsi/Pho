@@ -18,13 +18,13 @@ void Object::Draw()
 		GLint uniform = glGetUniformLocation(shader->program, "u_WVP");
 
 		Matrix WVP;
-		if (type != SKY_OBJ)
+		if (type == SKY_OBJ || type == UI_OBJ)
 		{
-			WVP = S*F*R*T*globalVP;
+			WVP = S*F*R*T*absoluteView;
 		}
 		else
 		{
-			WVP = S*F*R*T*absoluteView;
+			WVP = S*F*R*T*globalVP;
 		}
 		glUniformMatrix4fv(uniform, 1, GL_FALSE, &WVP.m[0][0]);
 
@@ -37,7 +37,7 @@ void Object::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, model->vboId);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->iboId);
 
-		glBindTexture(GL_TEXTURE_2D, textures[status]->texId[currentTick / mspf % textures[status]->numOfFragments]);
+		glBindTexture(GL_TEXTURE_2D, textures[status]->texId[(currentTick - playOffset) / mspf % textures[status]->numOfFragments]);
 
 		//glBindTexture(GL_TEXTURE_CUBE_MAP, textures[status]->texId[0]);
 
@@ -76,6 +76,12 @@ void Object::SetScale(float x)
 	S.SetScale(x*w, x*h, 1);
 }
 
+void Object::SetScaleY(float y)
+{
+	y *= 0.5;
+	S.SetScale(y*w, y*h, 1);
+}
+
 void Object::SetFlip(bool isFlipped)
 {
 	if (isFlipped)
@@ -97,14 +103,19 @@ void Object::SetRotation(float angle)
 
 void Object::SetPosition(float x, float y)
 {
-	T.SetTranslation(floor(x), floor(y), type);
+	T.SetTranslation(floor(x), floor(y), 0);
 	//T.SetTranslation(x, y, z);
 }
 
 void Object::SetVisible(bool isVisible, float ms)
 {
+	if (isVisible == true)
+	{
+		
+	}
 	visibleSet = isVisible;
 	timeVisibleSet = currentTick + ms;
+	playOffset = currentTick;
 }
 
 Object::Object()
@@ -114,6 +125,7 @@ Object::Object()
 	visible = true;
 	visibleSet = false;
 	timeVisibleSet = 0;
+	playOffset = 0;
 }
 
 Object::~Object()

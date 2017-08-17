@@ -60,7 +60,7 @@ public:
 			myFixtureDef2.shape = &edgeShape;
 			m_piece1 = m_body->CreateFixture(&myFixtureDef2);	
 		}
-		{
+		/*{
 			b2BodyDef bodyDef1;
 			bodyDef1.position = b2Vec2(0.0f, m_floorHeight*objLevel);
 			b2BodyDef bodyDef2;
@@ -79,7 +79,7 @@ public:
 			shape.Set(b2Vec2(m_floorWidth / 2, 0.0f),
 			b2Vec2(m_floorWidth / 2, m_floorHeight));
 			m_rightboundary->CreateFixture(&shape, 0.0f);
-		}
+		}*/
 
 	}
 

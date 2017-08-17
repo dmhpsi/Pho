@@ -1,6 +1,6 @@
 #pragma once
 #include "Box2D/Box2D.h"
-#include "..\NewTrainingFramework\define.h"
+#include "../Game/def.h"
 
 
 class FloorObject
@@ -36,7 +36,7 @@ public:
 			b2Fixture* m_piece1;
 			//fixture for the edgeshape
 			b2Fixture* m_piece2;
-			b2Vec2 x = b2Vec2(RandomFloat(-m_floorWidth / 2 + 4, m_floorWidth / 2 - 4), m_objLength + 0.5 + m_floorHeight*objLevel);
+			b2Vec2 x = b2Vec2(RandomFloat(-m_floorWidth / 2 + 13, m_floorWidth / 2 - 6), m_objLength + 0.5 + m_floorHeight*objLevel);			
 			if (objLevel == 0)
 			{
 				x.x = -6.0f;

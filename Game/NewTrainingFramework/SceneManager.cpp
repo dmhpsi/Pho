@@ -13,7 +13,7 @@ SceneManager* SceneManager::GetInstance()
 	return Instance;
 }
 
-void SceneManager::Fade(bool isFadeIn,int millis)
+void SceneManager::Fade(bool isFadeIn, int millis)
 {
 	if (isFadeIn)
 	{
@@ -26,6 +26,11 @@ void SceneManager::Fade(bool isFadeIn,int millis)
 	fadeMillis = millis;
 }
 
+bool compareZ(int2 id1, int2 id2)
+{
+	return id1.y < id2.y;
+}
+
 void SceneManager::Init(const char *smFile)
 {
 	int tmp;
@@ -34,7 +39,7 @@ void SceneManager::Init(const char *smFile)
 	fscanf_s(Resource, "#Scene Width: %f\n", &sceneWidth);
 	sceneHeight = sceneWidth*Globals::screenHeight / Globals::screenWidth;
 
-	Camera::GetInstance()->SetOrtho(-sceneWidth / 2, sceneWidth / 2, -sceneHeight / 2, sceneHeight / 2, -10, 10);
+	Camera::GetInstance()->SetOrtho(-sceneWidth / 2, sceneWidth / 2, -sceneHeight / 2, sceneHeight / 2, -1, 1);
 	Camera::GetInstance()->speed = sceneHeight / 2;
 
 	fscanf_s(Resource, "#Objects: %d\n", &numObject);
@@ -50,8 +55,45 @@ void SceneManager::Init(const char *smFile)
 		{
 			fscanf_s(Resource, "TEXTURE %d\n", &tmp);
 			listObject[i].textures[j] = (Texture*)ResourceManager::GetInstance()->GetResource(OBJ_TEXTURE, tmp);
+			// If it is win texture
+			if (tmp == 18)
+			{
+				winTextureId = i;
+				continue;
+			}
+			// If it is lose texture
+			if (tmp == 25)
+			{
+				loseTextureId = i;
+				continue;
+			}
+			// If it is home button
+			if (tmp == 20)
+			{
+				homeButtonId = i;
+				continue;
+			}
+			// If it is resume button
+			if (tmp == 21)
+			{
+				resumeButtonId = i;
+			}
+			// If it is replay button
+			if (tmp == 23)
+			{
+				replayButtonId = i;
+			}
+			// If it is next button
+			if (tmp == 24)
+			{
+				nextButtonId = i;
+			}
+			// Mask Id
+			if (tmp == 26)
+			{
+				maskId = i;
+			}
 		}
-		
 		fscanf_s(Resource, "MSPF %d\n", &listObject[i].mspf);
 
 		fscanf_s(Resource, "SHADER %d\n", &tmp);
@@ -76,9 +118,23 @@ void SceneManager::Init(const char *smFile)
 		{
 			listObject[i].type = SKY_OBJ;
 		}
+		else if (strcmp(link, "PAR_OBJ") == 0)
+		{
+			listObject[i].type = PAR_OBJ;
+		}
+		else if (strcmp(link, "UI_OBJ") == 0)
+		{
+			listObject[i].type = UI_OBJ;
+		}
+
+		int2 tmp;
+		tmp.x = i;
+		tmp.y = listObject[i].type;
+
+		drawOrder.push_back(tmp);
 
 		fscanf_s(Resource, "POSITION %f, %f\n", &listObject[i].x, &listObject[i].y);
-		listObject[i].T.SetTranslation(listObject[i].x, listObject[i].y, listObject[i].type);
+		listObject[i].T.SetTranslation(listObject[i].x, listObject[i].y, 0);
 		fscanf_s(Resource, "ROTATION %f\n", &listObject[i].angle);
 		listObject[i].angle *= PI / 180;
 		listObject[i].R.SetRotationZ(listObject[i].angle);
@@ -87,13 +143,20 @@ void SceneManager::Init(const char *smFile)
 		listObject[i].S.SetScale(0.5*listObject[i].w, 0.5*listObject[i].h, 1);
 	}
 
+	std::sort(drawOrder.begin(), drawOrder.end(), compareZ);
+
+	// disable home button, resume button and win button
+	/*listObject[winTextureId].SetVisible(true, 0);
+	listObject[homeButtonId].SetVisible(true, 0);
+	listObject[resumeButtonId].SetVisible(true, 0);*/
+
 	fadeMillis = 0;
 	fadeStartTick = 0;
 }
 
 void SceneManager::Draw(int numDrawObjects, ...)
 {
-	if (fadeMillis > 0 && isFading)
+	if (fadeMillis > 0)
 	{
 		float ratio = (float(currentTick - fadeStartTick) / fadeMillis);
 		if (ratio < 0 && ratio > -0.04)
@@ -116,10 +179,11 @@ void SceneManager::Draw(int numDrawObjects, ...)
 
 	if (numDrawObjects <= 0)
 	{
-		for (int i = 0; i < numObject; i++)
+		for (int i = 0; i < drawOrder.size(); i++)
 		{
-			listObject[i].Draw();
+			listObject[drawOrder[i].x].Draw();
 		}
+		
 	}
 	else
 	{

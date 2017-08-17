@@ -1,6 +1,4 @@
 #pragma once
-#include "Box2D/Box2D.h"
-
 #define PI 3.14159265359f
 
 typedef unsigned int MyEnum;
@@ -11,6 +9,8 @@ typedef unsigned int MyEnum;
 #define BG_OBJ 2
 #define MAN_OBJ 3
 #define PHO_OBJ 4
+#define PAR_OBJ 5
+#define UI_OBJ 6
 
 // Object status
 #define OBJ_IDLE 0
@@ -58,26 +58,23 @@ typedef unsigned int MyEnum;
 #define HIGH_CAM 3.0
 #define	RAND_LIMIT	32767
 
-const int16	k_smallGroup = 1;
-const int16 k_largeGroup = -1;
-const float m_floorHeight = 17.5f;
-const float m_floorWidth = 40.0f;
-inline float32 RandomFloat()
-{
-	float32 r = (float32)(rand() & (RAND_LIMIT));
-	r /= RAND_LIMIT;
-	r = 2.0f * r - 1.0f;
-	return r;
-}
-
-/// Random floating point number in range [lo, hi]
-inline float32 RandomFloat(float32 lo, float32 hi)
-{
-	float32 r = (float32)(rand() & (RAND_LIMIT));
-	r /= RAND_LIMIT;
-	r = (hi - lo) * r + lo;
-	return r;
-}
+// Button enum
+#define NUM_BUTTONS 15
+#define B_VOID 0
+#define B_HOME 1
+#define B_RESUME 2
+#define B_NEXT 3
+#define B_REPLAY 4
+#define B_CAMPAIGN 5
+#define B_ENDLESS 6
+#define B_MENU_UI 7
+#define B_LV1 8
+#define B_LV2 9
+#define B_LV3 10
+#define B_LV4 11
+#define B_LV5 12
+#define B_INTRO 13
+#define B_BACK 14
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \

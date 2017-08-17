@@ -107,6 +107,13 @@ void TextManager::RenderString(char* text, Vector4 color, float x, float y, floa
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void TextManager::RenderScore(int score, Vector4 color, float x, float y, float scaleX, float scaleY)
+{
+	char txtScores[20];
+	sprintf(txtScores, "%d", score);
+	RenderString(txtScores, color, x, y, scaleX, scaleY);
+}
+
 void TextManager::CleanInstance()
 {
 	delete Instance->fontShader;

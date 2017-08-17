@@ -16,7 +16,7 @@ class Object
 public:
 	int ID;
 	Model* model;
-	int numTextures, mspf;
+	int numTextures, mspf, playOffset;
 	float w, h, x, y, angle, timeVisibleSet;
 	MyEnum type, status;
 	Texture** textures;
@@ -26,6 +26,7 @@ public:
 
 	void Draw();
 	void SetStatus(MyEnum);
+	void SetScaleY(float y);
 	void SetScale(float x);
 	void SetFlip(bool isFlipped);
 	void SetRotation(float angle);

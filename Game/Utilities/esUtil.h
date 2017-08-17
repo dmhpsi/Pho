@@ -4,8 +4,13 @@
 
 //  Macros
 
+#ifdef WIN32
 #define ESUTIL_API  __cdecl
 #define ESCALLBACK  __cdecl
+#else
+#define ESUTIL_API
+#define ESCALLBACK
+#endif
 
 
 /// esCreateWindow flag - RGB color buffer
@@ -20,7 +25,7 @@
 #define ES_WINDOW_MULTISAMPLE   8
 
 
-
+#ifdef WIN32
 // Types
 
 class ESContext
@@ -126,6 +131,7 @@ void ESUTIL_API esLogMessage(const char *formatStr, ...);
 /// \param shaderSrc Shader source string
 /// \return A new shader object on success, 0 on failure
 //
+#endif // WIN32
 GLuint ESUTIL_API esLoadShader(GLenum type, char * filename);
 
 //

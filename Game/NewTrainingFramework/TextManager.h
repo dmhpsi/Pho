@@ -16,7 +16,8 @@ public:
 	Shaders* fontShader;
 	GLuint fontId, vboId;
 	void Initialize(const char*);
-	void RenderString(char*, Vector4, float, float, float, float);
+	void RenderString(char* text, Vector4 color, float x, float y, float scaleX, float scaleY);
+	void RenderScore(int score, Vector4 color = Vector4(255,255,255), float x = -400, float y = 790, float scaleX = 1.8, float scaleY = 1.8);
 	static TextManager* GetInstance();
 	void CleanInstance();
 };

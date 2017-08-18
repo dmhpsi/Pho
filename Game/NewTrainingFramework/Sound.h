@@ -6,9 +6,9 @@ extern float globalVolume;
 
 class Sound
 {
-	sf::Sound instance;
 	sf::SoundBuffer sb;
 public:
+	sf::Sound instance;
 	void Init(const char * path);
 
 	int ID;

@@ -24,7 +24,7 @@ public:
 	float32 m_timeStep;
 	int32 m_velocityIterations;
 	int32 m_positionIterations;
-	bool endGame;
+	bool endGame, winGame;
 
 	int numParticle;
 	Object* listParticle;

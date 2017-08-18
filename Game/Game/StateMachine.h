@@ -12,7 +12,9 @@ public:
 	int currentLevel = 0;
 	static StateMachine * Instance;
 	static StateMachine * GetInstance();
-	std::vector<Sound*> sounds;
+	bool gwin, glose, wplayed, lplayed;
+	Music *theme, *ingame;
+	Sound *win, *lose;
 	StateMachine();
 	void Init();
 	void LoadingInit();

@@ -24,6 +24,9 @@ void Key(unsigned char key, bool isPressed)
 //}
 void OnMouseDown(float x, float y)
 {
+	if (StateMachine::GetInstance()->currentState != StateMachine::GS_GAMEPLAY 
+		&& StateMachine::GetInstance()->currentState != StateMachine::GS_GAME_RETURN)
+	ResourceManager::GetInstance()->listSounds[0].Replay();
 	if (!StateMachine::GetInstance()->OnMouseDown(x, y) && !waiting)
 	{
 		PhysicManager::GetInstance()->MouseClick();
@@ -40,6 +43,8 @@ void Update(float delta)
 	if (isPlaying)
 	{
 		PhysicManager::GetInstance()->Update(delta);
+		StateMachine::GetInstance()->glose = PhysicManager::GetInstance()->endGame;
+		StateMachine::GetInstance()->gwin = PhysicManager::GetInstance()->winGame;
 	}
 	if (delta > 50)
 	{

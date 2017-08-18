@@ -18,6 +18,15 @@ StateMachine* StateMachine::GetInstance()
 StateMachine::StateMachine()
 {
 	currentState = GS_LOADING;
+	glose = false;
+	gwin = false;
+	ingame = &ResourceManager::GetInstance()->listMusics[0];
+	theme = &ResourceManager::GetInstance()->listMusics[2];
+	lose = &ResourceManager::GetInstance()->listSounds[1];
+	win = &ResourceManager::GetInstance()->listSounds[4];
+	lose->Stop();
+	theme->Stop();
+	ingame->Stop();
 }
 
 void StateMachine::Init()
@@ -87,6 +96,10 @@ void StateMachine::OptionMenuInit()
 
 void StateMachine::GamePlayInit()
 {
+	wplayed = false;
+	lplayed = false;
+	theme->Stop();
+	ingame->Replay();
 	Camera::GetInstance()->SetHeight(0, 0);
 	char f[50] = "../Resources/Resource_files/level1.txt";
 	f[33] = PhysicManager::GetInstance()->m_ilevel + '0';
@@ -106,43 +119,6 @@ void StateMachine::GamePlayInit()
 	listButtons[B_NEXT].SetProperty(319, 432, 94, 90, B_VOID);
 	SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->replayButtonId].SetVisible(true, 0);
 	listButtons[B_REPLAY].SetProperty(319, 432, 94, 90, B_VOID);
-
-	// home
-	/*if (SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->homeButtonId].visibleSet == true)
-	{
-		listButtons[B_HOME].SetProperty(167, 464, 94, 92, B_VOID);
-	}
-	else
-	{
-		listButtons[B_HOME].SetProperty(167, 464, 94, 92, B_HOME);
-	}*/
-	// replay
-	/*if (SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->replayButtonId].visibleSet == true)
-	{
-		listButtons[B_REPLAY].SetProperty(319, 463, 94, 90, B_VOID);
-	}
-	else
-	{
-		listButtons[B_REPLAY].SetProperty(319, 463, 94, 90, B_REPLAY);
-	}*/
-	// next
-	/*if (SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->nextButtonId].visibleSet == true)
-	{
-		listButtons[B_NEXT].SetProperty(319, 463, 94, 90, B_VOID);
-	}
-	else
-	{
-		listButtons[B_NEXT].SetProperty(319, 463, 94, 90, B_NEXT);
-	}*/
-	// resum
-	/*if (SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->resumeButtonId].visibleSet == true)
-	{
-		listButtons[B_RESUME].SetProperty(319, 463, 94, 90, B_VOID);
-	}
-	else
-	{
-		listButtons[B_RESUME].SetProperty(319, 463, 94, 90, B_RESUME);
-	}*/
 	listButtons[B_MENU_UI].SetProperty(453, 858, 85, 140, B_MENU_UI);
 }
 
@@ -153,23 +129,6 @@ void StateMachine::GameReturn()
 	SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->resumeButtonId].SetVisible(true, 0);
 	listButtons[B_RESUME].SetProperty(319, 432, 94, 90, B_VOID);
 	SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->maskId].SetVisible(true, 0);
-	/*if (SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->homeButtonId].visibleSet == true)
-	{
-		listButtons[B_HOME].SetProperty(167, 464, 94, 92, B_VOID);
-	}
-	else
-	{
-		listButtons[B_HOME].SetProperty(167, 464, 94, 92, B_HOME);
-	}*/
-	/*if (SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->resumeButtonId].visibleSet == true)
-	{
-		listButtons[B_RESUME].SetProperty(319, 463, 94, 90, B_VOID);
-	}
-	else
-	{
-		listButtons[B_RESUME].SetProperty(319, 463, 94, 90, B_RESUME);
-	}
-	listButtons[B_MENU_UI].SetProperty(453, 858, 85, 140, B_MENU_UI);*/
 }
 
 void StateMachine::DeleteState()
@@ -291,6 +250,8 @@ bool StateMachine::OnMouseDown(float x, float y)
 				}
 				if (i == B_HOME)
 				{
+					theme->Replay();
+					ingame->Stop();
 					ChangeState(GS_MAINMENU);
 					return true;
 				}
@@ -333,6 +294,8 @@ bool StateMachine::OnMouseDown(float x, float y)
 			{
 				if (i == B_HOME)
 				{
+					theme->Replay();
+					ingame->Stop();
 					ChangeState(GS_MAINMENU);
 					return true;
 				}
@@ -356,6 +319,8 @@ bool StateMachine::OnMouseDown(float x, float y)
 				}
 				if (i == B_HOME)
 				{
+					theme->Replay();
+					ingame->Stop();
 					ChangeState(GS_MAINMENU);
 					return true;
 				}
@@ -397,6 +362,28 @@ void StateMachine::Update(float deltaTime)
 	default:
 		break;
 	}
+	if (glose)
+	{
+		if (!lplayed)
+		{
+			lose->Replay();
+			lplayed = true;
+		}
+		ingame->Stop();
+		theme->Stop();
+		glose = false;
+	}
+	if (gwin)
+	{
+		if (!wplayed)
+		{
+			win->Replay();
+			wplayed = true;
+		}
+		ingame->Stop();
+		theme->Stop();
+		gwin = false;
+	}
 }
 
 void StateMachine::LoadingUpdate(float deltaTime)
@@ -411,6 +398,7 @@ void StateMachine::LoadingUpdate(float deltaTime)
 	}
 	else if (currentTick - lastTime >= 2000)
 	{
+		theme->Replay();
 		lastTime = currentTick;
 		ChangeState(GS_MAINMENU);
 	}

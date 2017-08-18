@@ -167,12 +167,24 @@ FILE "../Resources/Resource_files/bear.txt"
 ID 3
 FILE "../Resources/Resource_files/splash.txt"
 
-#Sounds: 2
+#Sounds: 5
 ID 0
-FILE "../Resources/Sounds/ding.wav"
+FILE "../Resources/Sounds/click.wav"
 ID 1
-FILE "../Resources/Sounds/grass2.wav"
+FILE "../Resources/Sounds/lose.wav"
+ID 2
+FILE "../Resources/Sounds/throw.wav"
+ID 3
+FILE "../Resources/Sounds/catch.wav"
+ID 4
+FILE "../Resources/Sounds/cheer.wav"
 
-#Musics: 1
+#Musics: 4
 ID 0
-FILE "../Resources/Sounds/oah.ogg"
+FILE "../Resources/Sounds/theme.ogg"
+ID 1
+FILE "../Resources/Sounds/ingame.ogg"
+ID 2
+FILE "../Resources/Sounds/win.ogg"
+ID 3
+FILE "../Resources/Sounds/lose.ogg"

@@ -46,6 +46,7 @@ void PhysicManager::Init(const char* physicsFile)
 	int object[3];
 	char link[30];
 	endGame = false;
+	winGame = false;
 	FILE *Resource;
 
 	numParticle = 1;
@@ -205,6 +206,7 @@ void PhysicManager::Update(float dt)
 		if (weldJointDef.userData == "canTao")
 		{
 			// Catch
+			ResourceManager::GetInstance()->listSounds[3].Replay();
 			weldJoint = (b2WeldJoint*)m_world->CreateJoint(&weldJointDef);
 			weldJointDef.userData = "daTao";
 			weldJointDef.bodyA = nullptr;
@@ -230,6 +232,7 @@ void PhysicManager::Update(float dt)
 	else if (m_button && weldJoint != nullptr && objBody->m_body->GetLinearVelocity().y == 0)
 	{
 		// Throw
+		ResourceManager::GetInstance()->listSounds[2].Replay();
 		m_world->DestroyJoint(weldJoint);
 		weldJoint = nullptr;
 		float impulse = objBody->m_body->GetMass() * 0.2;
@@ -389,6 +392,7 @@ void PhysicManager::Update(float dt)
 			static int old = currentTick;
 			if (currentTick - old > 1000)
 			{
+				
 				SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->maskId].SetVisible(false, 0);
 				SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->winTextureId].SetVisible(false, 0);
 				//SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->homeButtonId].SetVisible(false, 0);
@@ -406,7 +410,7 @@ void PhysicManager::Update(float dt)
 					SceneManager::GetInstance()->listObject[SceneManager::GetInstance()->nextButtonId].SetVisible(false, 0);
 					StateMachine::GetInstance()->listButtons[B_NEXT].SetProperty(319, 463, 94, 90, B_NEXT);
 				}
-				endGame = true;
+				winGame = true;
 			}
 
 		}
